@@ -11,7 +11,7 @@
         <table>
             <tr>
                 <th>Username:</th>
-                <td>{{ customer_id }}</td>
+                <td><a href="{{ customer_id.get_absolute_url}}">{{ customer_id }}</a></td>
             </tr>
             <tr>
                 <th>Total Price:</th>
@@ -32,7 +32,7 @@
         <ul>
             {% for sc_item in sc_list %}
                 <li>
-                    <a href="">{{ sc_item }}</a>
+                    <a href="{{ sc_item.get_absolute_url}}">{{ sc_item }}</a>
                 </li>
             {% empty %}
                 <li><em>There are currently no items in shopping cart.</em></li>

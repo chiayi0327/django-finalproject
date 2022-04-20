@@ -172,7 +172,7 @@ class Order_Product(models.Model):
 	product_id = models.ForeignKey(Product, related_name='order_products', on_delete=models.PROTECT)
 
 	def __str__(self):
-		return f'{self.oitem_id} - {self.product_id}'
+		return f'{self.order_id} - {self.product_id}'
 
 	def get_absolute_url(self):
 		return reverse('productinfo_orderproduct_detail_urlpattern',
@@ -180,7 +180,7 @@ class Order_Product(models.Model):
 					   )
 
 	class Meta:
-		ordering = ['oitem_id']
+		ordering = ['order_id']
 		constraints = [
 			UniqueConstraint(fields=['oitem_id', 'order_id', 'product_id'], name='unique_orderproduct')
 		]
