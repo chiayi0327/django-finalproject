@@ -1,0 +1,28 @@
+{% extends 'productinfo/base.html' %}
+
+{% block title %}
+    Cart Item - {{ cartitem }}
+{% endblock %}
+
+{% block content %}
+    <h2>{{ cartitem }}</h2>
+
+    <section>
+        <table>
+            <tr>
+                <th>Cart ID:</th>
+                <td>{{ cart_id }}</td>
+            </tr>
+            <tr>
+                <th>Quantity:</th>
+                <td>{{ cartitem.quantity }}</td>
+            </tr>
+            <tr>
+                <th>product name:</th>
+                <td>{{ product_id }}</td>
+            </tr>
+
+        </table>
+    </section>
+
+{% endblock %}

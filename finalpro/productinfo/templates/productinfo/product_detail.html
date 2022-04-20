@@ -1,0 +1,31 @@
+{% extends 'productinfo/base.html' %}
+
+{% block title %}
+    Product - {{ product }}
+{% endblock %}
+
+{% block content %}
+    <h2>{{ product }}</h2>
+
+    <section>
+        <table>
+            <tr>
+                <th>Product Name:</th>
+                <td>{{ product.product_name }}</td>
+            </tr>
+            <tr>
+                <th>Product Price:</th>
+                <td>{{ product.product_price }}</td>
+            </tr>
+            <tr>
+                <th>Stock Number:</th>
+                <td>{{ product.stock_num }}</td>
+            </tr>
+            <tr>
+                <th>Category:</th>
+                <td>{{ category }}</td>
+            </tr>
+        </table>
+    </section>
+
+{% endblock %}

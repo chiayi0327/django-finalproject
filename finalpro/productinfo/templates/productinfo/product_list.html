@@ -1,0 +1,18 @@
+{% extends 'productinfo/base.html' %}
+
+{% block title %}
+    Product List
+{% endblock %}
+
+{% block content %}
+    <h2>Product List</h2>
+    <ul>
+        {% for product in product_list %}
+        <li>
+            <a href="">{{ product }}</a>
+        </li>
+        {% empty %}
+        <li><em>There are currently no products available.</em></li>
+        {% endfor %}
+    </ul>
+{% endblock %}

@@ -1,0 +1,66 @@
+from django.urls import path
+from productinfo.views import (
+    CustomerList,
+    ProductList,
+    ShoppingCartList,
+    CartItemList,
+    OrderList,
+    OrderProductList,
+    CustomerDetail,
+    ProductDetail,
+    ShoppingCartDetail,
+    CartItemDetail,
+    OrderDetail,
+    OrderProductDetail,
+)
+
+urlpatterns = [
+
+    path('customer/',
+         CustomerList.as_view(),
+         name='productinfo_customer_list_urlpattern'),
+
+    path('customer/<int:pk>/',
+         CustomerDetail.as_view(),
+         name='productinfo_customer_detail_urlpattern'),
+
+    path('product/',
+         ProductList.as_view(),
+         name='productinfo_product_list_urlpattern'),
+
+    path('product/<int:pk>/',
+         ProductDetail.as_view(),
+         name='productinfo_product_detail_urlpattern'),
+
+    path('shoppingcart/',
+         ShoppingCartList.as_view(),
+         name='productinfo_shoppingcart_list_urlpattern'),
+
+    path('shoppingcart/<int:pk>/',
+         ShoppingCartDetail.as_view(),
+         name='productinfo_shoppingcart_detail_urlpattern'),
+
+    path('cartitem/',
+         CartItemList.as_view(),
+         name='productinfo_cartitem_list_urlpattern'),
+
+    path('cartitem/<int:pk>/',
+         CartItemDetail.as_view(),
+         name='productinfo_cartitem_detail_urlpattern'),
+
+    path('order/',
+         OrderList.as_view(),
+         name='productinfo_order_list_urlpattern'),
+
+    path('order/<int:pk>/',
+         OrderDetail.as_view(),
+         name='productinfo_order_detail_urlpattern'),
+
+    path('orderproduct/',
+         OrderProductList.as_view(),
+         name='productinfo_orderproduct_list_urlpattern'),
+
+    path('orderproduct/<int:pk>/',
+         OrderProductDetail.as_view(),
+         name='productinfo_orderproduct_detail_urlpattern'),
+]

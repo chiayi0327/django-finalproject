@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}
+            title is provided by inheriting templates
+        {% endblock %}
+    </title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--[if IE]><script
+      src="http://html5shiv.googlecode.com/svn/trunk/html5.js">
+    </script><![endif]-->
+</head>
+
+<body>
+
+<div><!-- start of container -->
+    <header>
+        <h1>Ecommerce Website</h1>
+        <h2>Product Information System</h2>
+    </header>
+    <nav>
+        <ul>
+            <li>
+                <a href="">
+                    Customer</a></li>
+            <li>
+                <a href="">
+                    Product</a></li>
+            <li>
+                <a href="">
+                    Shopping_Cart</a></li>
+            <li>
+                <a href="">
+                    Cart_Item</a></li>
+            <li>
+                <a href="">
+                    Order</a></li>
+            <li>
+                <a href="">
+                    Order_Product</a></li>
+        </ul>
+    </nav>
+    <main>
+        {% block content %}
+            This is default content!
+        {% endblock %}
+    </main>
+</div><!-- end of container -->
+
+<footer>
+    <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+            <img alt="Creative Commons License" style="border-width:0"
+                 src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png"/>
+        </a><br/><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">EZ University Tutorial Examples and Code</span>
+        by
+        <a xmlns:cc="http://creativecommons.org/ns#" href="https://www.ligent.net" property="cc:attributionName"
+           rel="cc:attributionURL">Ligent, LLC</a> are licensed under a
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike
+            4.0 International License</a>.
+    </p>
+</footer>
+
+</body>
+</html>
+

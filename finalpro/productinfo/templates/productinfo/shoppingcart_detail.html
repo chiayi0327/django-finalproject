@@ -1,0 +1,42 @@
+{% extends 'productinfo/base.html' %}
+
+{% block title %}
+    Shopping Cart - {{ shoppingcart }}
+{% endblock %}
+
+{% block content %}
+    <h2>{{ shoppingcart }}</h2>
+
+    <section>
+        <table>
+            <tr>
+                <th>Username:</th>
+                <td>{{ customer_id }}</td>
+            </tr>
+            <tr>
+                <th>Total Price:</th>
+                <td>{{ shoppingcart.total_price }}</td>
+            </tr>
+            <tr>
+                <th>Default Shipping Method:</th>
+                <td>{{ shipping_method }}</td>
+            </tr>
+            <tr>
+                <th>Default Payment Method:</th>
+                <td>{{ payment_method }}</td>
+            </tr>
+        </table>
+    </section>
+    <section>
+        <h3>Cart Item</h3>
+        <ul>
+            {% for sc_item in sc_list %}
+                <li>
+                    <a href="">{{ sc_item }}</a>
+                </li>
+            {% empty %}
+                <li><em>There are currently no items in shopping cart.</em></li>
+            {% endfor %}
+        </ul>
+    </section>
+{% endblock %}

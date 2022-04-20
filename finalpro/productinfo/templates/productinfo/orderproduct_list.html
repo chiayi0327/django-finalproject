@@ -1,0 +1,18 @@
+{% extends 'productinfo/base.html' %}
+
+{% block title %}
+    OrderProduct List
+{% endblock %}
+
+{% block content %}
+    <h2>OrderProduct List</h2>
+    <ul>
+        {% for orderproduct in orderproduct_list %}
+        <li>
+            <a href="">{{ orderproduct }}</a>
+        </li>
+        {% empty %}
+        <li><em>There are currently no products in order available.</em></li>
+        {% endfor %}
+    </ul>
+{% endblock %}

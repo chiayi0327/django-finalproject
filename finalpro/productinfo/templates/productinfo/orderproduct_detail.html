@@ -1,0 +1,32 @@
+{% extends 'productinfo/base.html' %}
+
+{% block title %}
+    Order Product - {{ orderproduct }}
+{% endblock %}
+
+{% block content %}
+    <h2>{{ orderproduct }}</h2>
+
+    <section>
+        <table>
+            <tr>
+                <th>Order ID:</th>
+                <td>{{ order_id }}</td>
+            </tr>
+            <tr>
+                <th>Product:</th>
+                <td>{{ product_id }}</td>
+            </tr>
+            <tr>
+                <th>price:</th>
+                <td>{{ orderproduct.price }}</td>
+            </tr>
+            <tr>
+                <th>quantity:</th>
+                <td>{{ orderproduct.quantity }}</td>
+            </tr>
+
+        </table>
+    </section>
+
+{% endblock %}

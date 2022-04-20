@@ -1,0 +1,18 @@
+{% extends 'productinfo/base.html' %}
+
+{% block title %}
+    CartItem List
+{% endblock %}
+
+{% block content %}
+    <h2>CartItem List</h2>
+    <ul>
+        {% for cartitem in cartitem_list %}
+        <li>
+            <a href="">{{ cartitem }}</a>
+        </li>
+        {% empty %}
+        <li><em>There are currently no items in the shopping cart available.</em></li>
+        {% endfor %}
+    </ul>
+{% endblock %}

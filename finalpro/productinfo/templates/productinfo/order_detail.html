@@ -1,0 +1,59 @@
+{% extends 'productinfo/base.html' %}
+
+{% block title %}
+    Order - {{ order }}
+{% endblock %}
+
+{% block content %}
+    <h2>{{ order }}</h2>
+
+    <section>
+        <table>
+            <tr>
+                <th>Order:</th>
+                <td>{{ order.order_id }}</td>
+            </tr>
+            <tr>
+                <th>User:</th>
+                <td>{{ customer_id }}</td>
+            </tr>
+            <tr>
+                <th>Total Price:</th>
+                <td>{{ order.total_price }}</td>
+            </tr>
+            <tr>
+                <th>Order Date:</th>
+                <td>{{ order.order_date }}</td>
+            </tr>
+            <tr>
+                <th>Receiver:</th>
+                <td>{{ order.receiver }}</td>
+            </tr>
+            <tr>
+                <th>Address:</th>
+                <td>{{ order.address }}</td>
+            </tr>
+            <tr>
+                <th>Default Shipping Method:</th>
+                <td>{{ shipping_method }}</td>
+            </tr>
+            <tr>
+                <th>Default Payment Method:</th>
+                <td>{{ payment_method }}</td>
+            </tr>
+        </table>
+    </section>
+
+    <section>
+        <h3>Orders</h3>
+        <ul>
+            {% for product in product_list %}
+                <li>
+                    <a href="">{{ product }}</a>
+                </li>
+            {% empty %}
+                <li><em>There are currently no orders.</em></li>
+            {% endfor %}
+        </ul>
+    </section>
+{% endblock %}

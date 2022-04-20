@@ -1,0 +1,57 @@
+{% extends 'productinfo/base.html' %}
+
+{% block title %}
+    Customer - {{ customer }}
+{% endblock %}
+
+{% block content %}
+    <h2>{{ customer }}</h2>
+
+    <section>
+        <table>
+            <tr>
+                <th>Username:</th>
+                <td>{{ customer.username }}</td>
+            </tr>
+            <tr>
+                <th>First Name:</th>
+                <td>{{ customer.first_name }}</td>
+            </tr>
+            <tr>
+                <th>Last Name:</th>
+                <td>{{ customer.last_name }}</td>
+            </tr>
+            {% if instructor.disambiguator %}
+                <tr>
+                    <th>Disambiguator:</th>
+                    <td>{{ customer.disambiguator }}</td>
+                </tr>
+            {% endif %}
+            <tr>
+                <th>Email:</th>
+                <td>{{ customer.email }}</td>
+            </tr>
+            <tr>
+                <th>Default Shipping Method:</th>
+                <td>{{ shipping_method }}</td>
+            </tr>
+            <tr>
+                <th>Default Payment Method:</th>
+                <td>{{ payment_method }}</td>
+            </tr>
+        </table>
+    </section>
+
+    <section>
+        <h3>Orders</h3>
+        <ul>
+            {% for order in order_list %}
+                <li>
+                    <a href="">{{ order }}</a>
+                </li>
+            {% empty %}
+                <li><em>There are currently no orders for this customer.</em></li>
+            {% endfor %}
+        </ul>
+    </section>
+{% endblock %}
