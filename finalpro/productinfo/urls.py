@@ -12,6 +12,7 @@ from productinfo.views import (
     CartItemDetail,
     OrderDetail,
     OrderProductDetail,
+    CustomerCreate,
 )
 
 urlpatterns = [
@@ -23,6 +24,10 @@ urlpatterns = [
     path('customer/<int:pk>/',
          CustomerDetail.as_view(),
          name='productinfo_customer_detail_urlpattern'),
+
+    path('customer/create/',
+         CustomerCreate.as_view(),
+         name='productinfo_customer_create_urlpattern'),
 
     path('product/',
          ProductList.as_view(),

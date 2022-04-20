@@ -70,7 +70,7 @@ class Customer(models.Model):
 	class Meta:
 		ordering = ['customer_id']
 		constraints = [
-			UniqueConstraint(fields=['customer_id', 'username', 'email', 'last_name', 'first_name', 'disambiguator'], name='unique_customer')
+			UniqueConstraint(fields=['username', 'email', 'disambiguator'], name='unique_customer')
 		]
 
 

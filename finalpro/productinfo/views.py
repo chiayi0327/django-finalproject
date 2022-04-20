@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.views import View
 
+from productinfo.forms import CustomerForm
 from productinfo.models import (
 	Customer,
 	Product,
@@ -9,6 +10,7 @@ from productinfo.models import (
 	Order,
 	Order_Product,
 )
+from productinfo.utils import ObjectCreateMixin
 
 
 class CustomerList(View):
@@ -39,6 +41,11 @@ class CustomerDetail(View):
 			 'payment_method': payment_method,
 			 'order_list': order_list}
 		)
+
+
+class CustomerCreate(ObjectCreateMixin, View):
+	form_class = CustomerForm
+	template_name = 'productinfo/customer_form.html'
 
 
 class ProductList(View):
