@@ -9,7 +9,7 @@
     <ul>
         {% for cartitem in cartitem_list %}
         <li>
-            <a href="">{{ cartitem }}</a>
+            <a href="{{ cartitem.get_absolute_url }}">{{ cartitem }}</a>
         </li>
         {% empty %}
         <li><em>There are currently no items in the shopping cart available.</em></li>

@@ -9,7 +9,7 @@
     <ul>
         {% for orderproduct in orderproduct_list %}
         <li>
-            <a href="">{{ orderproduct }}</a>
+            <a href="{{ orderproduct.get_absolute_url }}">{{ orderproduct }}</a>
         </li>
         {% empty %}
         <li><em>There are currently no products in order available.</em></li>

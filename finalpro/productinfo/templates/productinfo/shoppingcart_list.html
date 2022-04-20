@@ -9,7 +9,7 @@
     <ul>
         {% for shoppingcart in shoppingcart_list %}
         <li>
-            <a href="">{{ shoppingcart }}</a>
+            <a href="{{ shoppingcart.get_absolute_url }}">{{ shoppingcart }}</a>
         </li>
         {% empty %}
         <li><em>There are currently no customers available.</em></li>

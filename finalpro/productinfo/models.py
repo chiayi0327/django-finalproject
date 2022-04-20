@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models import UniqueConstraint
+from django.urls import reverse
 
 
 class Category(models.Model):
@@ -61,6 +62,11 @@ class Customer(models.Model):
 	def __str__(self):
 		return f'{self.username} - {self.email}'
 
+	def get_absolute_url(self):
+		return reverse('productinfo_customer_detail_urlpattern',
+					   kwargs={'pk':self.pk}
+					   )
+
 	class Meta:
 		ordering = ['customer_id']
 		constraints = [
@@ -77,6 +83,11 @@ class Product(models.Model):
 
 	def __str__(self):
 		return f'{self.product_id} - {self.product_name}'
+
+	def get_absolute_url(self):
+		return reverse('productinfo_product_detail_urlpattern',
+					   kwargs={'pk':self.pk}
+					   )
 
 	class Meta:
 		ordering = ['product_id']
@@ -95,6 +106,11 @@ class Shopping_Cart(models.Model):
 	def __str__(self):
 		return f'{self.cart_id} - {self.customer_id} - {self.total_price}'
 
+	def get_absolute_url(self):
+		return reverse('productinfo_shoppingcart_detail_urlpattern',
+					   kwargs={'pk':self.pk}
+					   )
+
 	class Meta:
 		ordering = ['cart_id']
 		constraints = [
@@ -110,6 +126,11 @@ class Cart_Item(models.Model):
 
 	def __str__(self):
 		return f'{self.cart_id} - {self.product_id}'
+
+	def get_absolute_url(self):
+		return reverse('productinfo_cartitem_detail_urlpattern',
+					   kwargs={'pk':self.pk}
+					   )
 
 	class Meta:
 		ordering = ['cart_id', 'product_id']
@@ -131,6 +152,11 @@ class Order(models.Model):
 	def __str__(self):
 		return f'{self.order_id} - {self.order_date} - {self.total_price}'
 
+	def get_absolute_url(self):
+		return reverse('productinfo_order_detail_urlpattern',
+					   kwargs={'pk':self.pk}
+					   )
+
 	class Meta:
 		ordering = ['order_date', 'order_id']
 		constraints = [
@@ -147,6 +173,11 @@ class Order_Product(models.Model):
 
 	def __str__(self):
 		return f'{self.oitem_id} - {self.product_id}'
+
+	def get_absolute_url(self):
+		return reverse('productinfo_orderproduct_detail_urlpattern',
+					   kwargs={'pk':self.pk}
+					   )
 
 	class Meta:
 		ordering = ['oitem_id']
