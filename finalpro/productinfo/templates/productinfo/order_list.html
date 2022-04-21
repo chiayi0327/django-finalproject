@@ -6,6 +6,11 @@
 
 {% block content %}
     <h2>Order List</h2>
+    <div>
+    <a href="{% url 'productinfo_order_create_urlpattern' %}">
+        Create Order
+    </a>
+    </div>
     <ul>
         {% for order in order_list %}
         <li>
@@ -16,3 +21,4 @@
         {% endfor %}
     </ul>
 {% endblock %}
+

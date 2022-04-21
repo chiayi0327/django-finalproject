@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.views import View
 
-from productinfo.forms import CustomerForm, ProductForm, ShoppingCartForm
+from productinfo.forms import CustomerForm, ProductForm, ShoppingCartForm, CartItemForm, OrderForm, OrderProductForm
 from productinfo.models import (
 	Customer,
 	Product,
@@ -9,6 +9,7 @@ from productinfo.models import (
 	Cart_Item,
 	Order,
 	Order_Product,
+
 )
 from productinfo.utils import ObjectCreateMixin
 
@@ -141,6 +142,11 @@ class CartItemDetail(View):
 		)
 
 
+class CartItemCreate(ObjectCreateMixin, View):
+	form_class = CartItemForm
+	template_name = 'productinfo/cartitem_form.html'
+
+
 class OrderList(View):
 
 	def get(self, request):
@@ -173,6 +179,11 @@ class OrderDetail(View):
 		)
 
 
+class OrderCreate(ObjectCreateMixin, View):
+	form_class = OrderForm
+	template_name = 'productinfo/order_form.html'
+
+
 class OrderProductList(View):
 
 	def get(self, request):
@@ -199,3 +210,8 @@ class OrderProductDetail(View):
 			 'order_id': order_id,
 			 'product_id': product_id}
 		)
+
+
+class OrderProductCreate(ObjectCreateMixin, View):
+	form_class = OrderProductForm
+	template_name = 'productinfo/orderproduct_form.html'

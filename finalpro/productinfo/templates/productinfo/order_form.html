@@ -1,0 +1,15 @@
+{% extends 'productinfo/base.html' %}
+
+{% block title %}
+    Create Order
+{% endblock %}
+
+{% block content %}
+    <form
+        action="{% url 'productinfo_order_create_urlpattern'%}"
+        method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Create Order</button>
+    </form>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'productinfo/base.html' %}
+
+{% block title %}
+    Create Shopping Cart
+{% endblock %}
+
+{% block content %}
+    <form
+        action="{% url 'productinfo_cartitem_create_urlpattern'%}"
+        method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Create CartItem</button>
+    </form>
+{% endblock %}

@@ -1,6 +1,6 @@
 from django import forms
 
-from productinfo.models import Customer, Product, Shopping_Cart
+from productinfo.models import Customer, Product, Shopping_Cart, Cart_Item, Order, Order_Product
 
 
 class CustomerForm(forms.ModelForm):
@@ -42,3 +42,26 @@ class ShoppingCartForm(forms.ModelForm):
 		model = Shopping_Cart
 		fields = '__all__'
 
+
+class CartItemForm(forms.ModelForm):
+	class Meta:
+		model = Cart_Item
+		fields = '__all__'
+
+
+class OrderForm(forms.ModelForm):
+	class Meta:
+		model = Order
+		fields = '__all__'
+
+	def clean_receiver(self):
+		return self.cleaned_data['receiver'].strip()
+
+	def clean_address(self):
+		return self.cleaned_data['address'].strip()
+
+
+class OrderProductForm(forms.ModelForm):
+	class Meta:
+		model = Order_Product
+		fields = '__all__'

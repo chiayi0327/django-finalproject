@@ -6,6 +6,11 @@
 
 {% block content %}
     <h2>CartItem List</h2>
+    <div>
+    <a href="{% url 'productinfo_cartitem_create_urlpattern' %}">
+        Create New CartItem
+    </a>
+    </div>
     <ul>
         {% for cartitem in cartitem_list %}
         <li>
