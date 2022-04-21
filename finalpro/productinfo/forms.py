@@ -1,6 +1,6 @@
 from django import forms
 
-from productinfo.models import Customer
+from productinfo.models import Customer, Product, Shopping_Cart
 
 
 class CustomerForm(forms.ModelForm):
@@ -26,4 +26,19 @@ class CustomerForm(forms.ModelForm):
 
 	def clean_password(self):
 		return self.cleaned_data['password'].strip()
+
+
+class ProductForm(forms.ModelForm):
+	class Meta:
+		model = Product
+		fields = '__all__'
+
+	def clean_product_name(self):
+		return self.cleaned_data['product_name'].strip()
+
+
+class ShoppingCartForm(forms.ModelForm):
+	class Meta:
+		model = Shopping_Cart
+		fields = '__all__'
 

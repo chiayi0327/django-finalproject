@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.views import View
 
-from productinfo.forms import CustomerForm
+from productinfo.forms import CustomerForm, ProductForm, ShoppingCartForm
 from productinfo.models import (
 	Customer,
 	Product,
@@ -73,6 +73,11 @@ class ProductDetail(View):
 		)
 
 
+class ProductCreate(ObjectCreateMixin, View):
+	form_class = ProductForm
+	template_name = 'productinfo/product_form.html'
+
+
 class ShoppingCartList(View):
 
 	def get(self, request):
@@ -103,6 +108,11 @@ class ShoppingCartDetail(View):
 			 'payment_method': payment_method,
 			 'sc_list': sc_list }
 		)
+
+
+class ShoppingCartCreate(ObjectCreateMixin, View):
+	form_class = ShoppingCartForm
+	template_name = 'productinfo/shoppingcart_form.html'
 
 
 class CartItemList(View):

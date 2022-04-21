@@ -6,6 +6,11 @@
 
 {% block content %}
     <h2>Shopping Cart List</h2>
+    <div>
+    <a href="{% url 'productinfo_shoppingcart_create_urlpattern' %}">
+        Create New ShoppingCart
+    </a>
+    </div>
     <ul>
         {% for shoppingcart in shoppingcart_list %}
         <li>

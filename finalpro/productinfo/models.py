@@ -114,7 +114,7 @@ class Shopping_Cart(models.Model):
 	class Meta:
 		ordering = ['cart_id']
 		constraints = [
-			UniqueConstraint(fields=['cart_id', 'customer_id'], name='unique_shoppingcart')
+			UniqueConstraint(fields=['customer_id'], name='unique_shoppingcart')
 		]
 
 
