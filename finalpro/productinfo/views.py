@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
 
 from productinfo.forms import CustomerForm, ProductForm, ShoppingCartForm, CartItemForm, OrderForm, OrderProductForm
@@ -47,6 +47,44 @@ class CustomerDetail(View):
 class CustomerCreate(ObjectCreateMixin, View):
 	form_class = CustomerForm
 	template_name = 'productinfo/customer_form.html'
+
+
+class CustomerUpdate(View):
+	form_class = CustomerForm
+	model = Customer
+	template_name = 'productinfo/customer_form_update.html'
+
+	def get_object(self, pk):
+		return get_object_or_404(
+			self.model,
+			pk=pk)
+
+	def get(self, request, pk):
+		customer = self.get_object(pk)
+		context = {
+			'form': self.form_class(
+				instance=customer),
+			'customer': customer,
+		}
+		return render(
+			request, self.template_name, context)
+
+	def post(self, request, pk):
+		customer = self.get_object(pk)
+		bound_form = self.form_class(
+			request.POST, instance=customer)
+		if bound_form.is_valid():
+			new_customer = bound_form.save()
+			return redirect(new_customer)
+		else:
+			context = {
+				'form': bound_form,
+				'customer': customer,
+			}
+			return render(
+				request,
+				self.template_name,
+				context)
 
 
 class ProductList(View):

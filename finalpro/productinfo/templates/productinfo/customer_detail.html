@@ -6,7 +6,11 @@
 
 {% block content %}
     <h2>{{ customer }}</h2>
-
+    <ul>
+        <li>
+            <a href="{{ customer.get_update_url }}">
+                Edit Customer</a></li>
+    </ul>
     <section>
         <table>
             <tr>
