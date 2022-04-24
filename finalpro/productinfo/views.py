@@ -187,6 +187,44 @@ class ShoppingCartDetail(View):
 		)
 
 
+class ShoppingCartUpdate(View):
+	form_class = ShoppingCartForm
+	model = Shopping_Cart
+	template_name = 'productinfo/shoppingcart_form_update.html'
+
+	def get_object(self, pk):
+		return get_object_or_404(
+			self.model,
+			pk=pk)
+
+	def get(self, request, pk):
+		shopping_cart = self.get_object(pk)
+		context = {
+			'form': self.form_class(
+				instance=shopping_cart),
+			'product': shopping_cart,
+		}
+		return render(
+			request, self.template_name, context)
+
+	def post(self, request, pk):
+		shopping_cart = self.get_object(pk)
+		bound_form = self.form_class(
+			request.POST, instance=shopping_cart)
+		if bound_form.is_valid():
+			new_shoppingcart = bound_form.save()
+			return redirect(new_shoppingcart)
+		else:
+			context = {
+				'form': bound_form,
+				'shopping_cart': shopping_cart,
+			}
+			return render(
+				request,
+				self.template_name,
+				context)
+
+
 class ShoppingCartCreate(ObjectCreateMixin, View):
 	form_class = ShoppingCartForm
 	template_name = 'productinfo/shoppingcart_form.html'
