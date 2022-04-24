@@ -6,7 +6,11 @@
 
 {% block content %}
     <h2>{{ product }}</h2>
-
+    <ul>
+        <li>
+            <a href="{{ product.get_update_url }}">
+                Edit Product</a></li>
+    </ul>
     <section>
         <table>
             <tr>

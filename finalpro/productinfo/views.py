@@ -117,6 +117,44 @@ class ProductCreate(ObjectCreateMixin, View):
 	template_name = 'productinfo/product_form.html'
 
 
+class ProductUpdate(View):
+	form_class = ProductForm
+	model = Product
+	template_name = 'productinfo/product_form_update.html'
+
+	def get_object(self, pk):
+		return get_object_or_404(
+			self.model,
+			pk=pk)
+
+	def get(self, request, pk):
+		product = self.get_object(pk)
+		context = {
+			'form': self.form_class(
+				instance=product),
+			'product': product,
+		}
+		return render(
+			request, self.template_name, context)
+
+	def post(self, request, pk):
+		product = self.get_object(pk)
+		bound_form = self.form_class(
+			request.POST, instance=product)
+		if bound_form.is_valid():
+			new_product = bound_form.save()
+			return redirect(new_product)
+		else:
+			context = {
+				'form': bound_form,
+				'product': product,
+			}
+			return render(
+				request,
+				self.template_name,
+				context)
+
+
 class ShoppingCartList(View):
 
 	def get(self, request):
