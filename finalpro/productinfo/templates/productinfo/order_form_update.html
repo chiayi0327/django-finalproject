@@ -1,0 +1,15 @@
+{% extends 'productinfo/base.html' %}
+
+{% block title %}
+    Update Order
+{% endblock %}
+
+{% block content %}
+    <form
+        action="{{ order.get_update_url }}"
+        method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Update Order</button>
+    </form>
+{% endblock %}

@@ -336,6 +336,44 @@ class OrderCreate(ObjectCreateMixin, View):
 	template_name = 'productinfo/order_form.html'
 
 
+class OrderUpdate(View):
+	form_class = OrderForm
+	model = Order
+	template_name = 'productinfo/order_form_update.html'
+
+	def get_object(self, pk):
+		return get_object_or_404(
+			self.model,
+			pk=pk)
+
+	def get(self, request, pk):
+		order = self.get_object(pk)
+		context = {
+			'form': self.form_class(
+				instance=order),
+			'order': order,
+		}
+		return render(
+			request, self.template_name, context)
+
+	def post(self, request, pk):
+		order = self.get_object(pk)
+		bound_form = self.form_class(
+			request.POST, instance=order)
+		if bound_form.is_valid():
+			new_order = bound_form.save()
+			return redirect(new_order)
+		else:
+			context = {
+				'form': bound_form,
+				'order': order,
+			}
+			return render(
+				request,
+				self.template_name,
+				context)
+
+
 class OrderProductList(View):
 
 	def get(self, request):
