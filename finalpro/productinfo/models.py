@@ -204,6 +204,11 @@ class Order_Product(models.Model):
 					   kwargs={'pk':self.pk}
 					   )
 
+	def get_update_url(self):
+		return reverse('productinfo_orderproduct_update_urlpattern',
+					   kwargs={'pk':self.pk}
+					   )
+
 	class Meta:
 		ordering = ['order_id']
 		constraints = [
