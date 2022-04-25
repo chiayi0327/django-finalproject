@@ -1,0 +1,15 @@
+{% extends 'productinfo/base.html' %}
+
+{% block title %}
+    Update CartItem
+{% endblock %}
+
+{% block content %}
+    <form
+        action="{{ cartitem.get_update_url }}"
+        method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Update CartItem</button>
+    </form>
+{% endblock %}

@@ -147,6 +147,11 @@ class Cart_Item(models.Model):
 					   kwargs={'pk':self.pk}
 					   )
 
+	def get_update_url(self):
+		return reverse('productinfo_cartitem_update_urlpattern',
+					   kwargs={'pk':self.pk}
+					   )
+
 	class Meta:
 		ordering = ['cart_id', 'product_id']
 		constraints = [

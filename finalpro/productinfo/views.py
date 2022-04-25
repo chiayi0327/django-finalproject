@@ -261,6 +261,44 @@ class CartItemCreate(ObjectCreateMixin, View):
 	template_name = 'productinfo/cartitem_form.html'
 
 
+class CartItemUpdate(View):
+	form_class = CartItemForm
+	model = Cart_Item
+	template_name = 'productinfo/cartitem_form_update.html'
+
+	def get_object(self, pk):
+		return get_object_or_404(
+			self.model,
+			pk=pk)
+
+	def get(self, request, pk):
+		cart_item = self.get_object(pk)
+		context = {
+			'form': self.form_class(
+				instance=cart_item),
+			'cart_item': cart_item,
+		}
+		return render(
+			request, self.template_name, context)
+
+	def post(self, request, pk):
+		cart_item = self.get_object(pk)
+		bound_form = self.form_class(
+			request.POST, instance=cart_item)
+		if bound_form.is_valid():
+			new_cartitem = bound_form.save()
+			return redirect(new_cartitem)
+		else:
+			context = {
+				'form': bound_form,
+				'cart_item': cart_item,
+			}
+			return render(
+				request,
+				self.template_name,
+				context)
+
+
 class OrderList(View):
 
 	def get(self, request):

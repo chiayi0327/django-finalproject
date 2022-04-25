@@ -21,6 +21,7 @@ from productinfo.views import (
     CustomerUpdate,
     ProductUpdate,
     ShoppingCartUpdate,
+    CartItemUpdate,
 
 )
 
@@ -85,6 +86,10 @@ urlpatterns = [
     path('cartitem/create/',
          CartItemCreate.as_view(),
          name='productinfo_cartitem_create_urlpattern'),
+
+    path('cartitem/<int:pk>/update/',
+         CartItemUpdate.as_view(),
+         name='productinfo_cartitem_update_urlpattern'),
 
     path('order/',
          OrderList.as_view(),
