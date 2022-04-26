@@ -176,6 +176,11 @@ class ShoppingCartDetail(View):
 		shipping_method = shoppingcart.sm_id
 		payment_method = shoppingcart.pm_id
 		sc_list = shoppingcart.cart_items.all()
+
+		total = 0
+		for product in sc_list:
+			total = product.quantity * product.product_id.product_price + total
+
 		return render(
 			request,
 			'productinfo/shoppingcart_detail.html',
@@ -183,7 +188,8 @@ class ShoppingCartDetail(View):
 			 'customer_id': customer_id,
 			 'shipping_method': shipping_method,
 			 'payment_method': payment_method,
-			 'sc_list': sc_list }
+			 'sc_list': sc_list,
+			 'total': total }
 		)
 
 
@@ -249,10 +255,12 @@ class CartItemDetail(View):
 		)
 		cart_id = cartitem.cart_id
 		product_id = cartitem.product_id
+
+		sub_total = cartitem.quantity * cartitem.product_id.product_price
 		return render(
 			request,
 			'productinfo/cartitem_detail.html',
-			{'cartitem': cartitem, 'cart_id': cart_id, 'product_id': product_id}
+			{'cartitem': cartitem, 'cart_id': cart_id, 'product_id': product_id , 'sub_total': sub_total}
 		)
 
 

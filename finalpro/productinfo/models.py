@@ -114,7 +114,7 @@ class Shopping_Cart(models.Model):
 	pm_id = models.ForeignKey(Payment_Method, related_name='shopping_carts', on_delete=models.PROTECT)
 
 	def __str__(self):
-		return f'{self.cart_id} - {self.customer_id} - {self.total_price}'
+		return f'{self.cart_id} - {self.customer_id}'
 
 	def get_absolute_url(self):
 		return reverse('productinfo_shoppingcart_detail_urlpattern',
