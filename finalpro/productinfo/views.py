@@ -155,6 +155,29 @@ class ProductUpdate(View):
 				context)
 
 
+class ProductDelete(View):
+
+	def get(self, request, pk):
+		product = self.get_object(pk)
+		return render(
+			request,
+			'productinfo/product_confirm_delete.html',
+			{'product': product}
+		)
+
+	def get_object(self, pk):
+		product = get_object_or_404(
+			Product,
+			pk=pk
+		)
+		return product
+
+	def post(self, request, pk):
+		product = self.get_object(pk)
+		product.delete()
+		return redirect('productinfo_product_list_urlpattern')
+
+
 class ShoppingCartList(View):
 
 	def get(self, request):
@@ -189,7 +212,7 @@ class ShoppingCartDetail(View):
 			 'shipping_method': shipping_method,
 			 'payment_method': payment_method,
 			 'sc_list': sc_list,
-			 'total': total }
+			 'total': total}
 		)
 
 
@@ -260,7 +283,7 @@ class CartItemDetail(View):
 		return render(
 			request,
 			'productinfo/cartitem_detail.html',
-			{'cartitem': cartitem, 'cart_id': cart_id, 'product_id': product_id , 'sub_total': sub_total}
+			{'cartitem': cartitem, 'cart_id': cart_id, 'product_id': product_id, 'sub_total': sub_total}
 		)
 
 
@@ -332,10 +355,10 @@ class OrderDetail(View):
 			request,
 			'productinfo/order_detail.html',
 			{'order': order,
-			 'customer_id': customer_id ,
+			 'customer_id': customer_id,
 			 'shipping_method': shipping_method,
 			 'payment_method': payment_method,
-			 'product_list':product_list }
+			 'product_list': product_list}
 		)
 
 

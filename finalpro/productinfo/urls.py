@@ -24,6 +24,7 @@ from productinfo.views import (
     CartItemUpdate,
     OrderUpdate,
     OrderProductUpdate,
+    ProductDelete,
 
 )
 
@@ -60,6 +61,10 @@ urlpatterns = [
     path('product/<int:pk>/update/',
          ProductUpdate.as_view(),
          name='productinfo_product_update_urlpattern'),
+
+    path('product/<int:pk>/delete/',
+         ProductDelete.as_view(),
+         name='productinfo_product_delete_urlpattern'),
 
     path('shoppingcart/',
          ShoppingCartList.as_view(),

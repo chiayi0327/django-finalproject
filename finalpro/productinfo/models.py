@@ -99,6 +99,11 @@ class Product(models.Model):
 					   kwargs={'pk':self.pk}
 					   )
 
+	def get_delete_url(self):
+		return reverse('productinfo_product_delete_urlpattern',
+					   kwargs={'pk':self.pk}
+					   )
+
 	class Meta:
 		ordering = ['product_id']
 		constraints = [
