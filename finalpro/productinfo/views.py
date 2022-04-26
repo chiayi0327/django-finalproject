@@ -34,13 +34,15 @@ class CustomerDetail(View):
 		shipping_method = customer.sm_id
 		payment_method = customer.pm_id
 		order_list = customer.orders.all()
+		shopping_cart = customer.shopping_carts.all()
 		return render(
 			request,
 			'productinfo/customer_detail.html',
 			{'customer': customer,
 			 'shipping_method': shipping_method,
 			 'payment_method': payment_method,
-			 'order_list': order_list}
+			 'order_list': order_list,
+			 'shopping_cart':shopping_cart}
 		)
 
 
@@ -85,6 +87,40 @@ class CustomerUpdate(View):
 				request,
 				self.template_name,
 				context)
+
+
+class CustomerDelete(View):
+
+	def get(self, request, pk):
+		customer = self.get_object(pk)
+		orders = customer.orders.all()
+		shopping_cart = customer.shopping_carts.all()
+
+		if orders.count() > 0 or shopping_cart.count() > 0:
+			return render(
+				request,
+				'productinfo/customer_refuse_delete.html',
+				{'customer': customer,
+				 'orders': orders,
+				 'shopping_cart':shopping_cart,
+				 }
+			)
+		else:
+			return render(
+				request,
+				'productinfo/customer_confirm_delete.html',
+				{'customer': customer}
+			)
+
+	def get_object(self, pk):
+		return get_object_or_404(
+			Customer,
+			pk=pk)
+
+	def post(self, request, pk):
+		customer = self.get_object(pk)
+		customer.delete()
+		return redirect('productinfo_customer_list_urlpattern')
 
 
 class ProductList(View):
@@ -191,14 +227,14 @@ class ShoppingCartList(View):
 class ShoppingCartDetail(View):
 
 	def get(self, request, pk):
-		shoppingcart = get_object_or_404(
+		shopping_cart = get_object_or_404(
 			Shopping_Cart,
 			pk=pk
 		)
-		customer_id = shoppingcart.customer_id
-		shipping_method = shoppingcart.sm_id
-		payment_method = shoppingcart.pm_id
-		sc_list = shoppingcart.cart_items.all()
+		customer_id = shopping_cart.customer_id
+		shipping_method = shopping_cart.sm_id
+		payment_method = shopping_cart.pm_id
+		sc_list = shopping_cart.cart_items.all()
 
 		total = 0
 		for product in sc_list:
@@ -207,7 +243,7 @@ class ShoppingCartDetail(View):
 		return render(
 			request,
 			'productinfo/shoppingcart_detail.html',
-			{'shoppingcart': shoppingcart,
+			{'shopping_cart': shopping_cart,
 			 'customer_id': customer_id,
 			 'shipping_method': shipping_method,
 			 'payment_method': payment_method,
@@ -257,6 +293,39 @@ class ShoppingCartUpdate(View):
 class ShoppingCartCreate(ObjectCreateMixin, View):
 	form_class = ShoppingCartForm
 	template_name = 'productinfo/shoppingcart_form.html'
+
+
+class ShoppingCartDelete(View):
+
+	def get(self, request, pk):
+		shopping_cart = self.get_object(pk)
+		sc_list = shopping_cart.cart_items.all()
+		if sc_list.count() > 0:
+			return render(
+				request,
+				'productinfo/shoppingcart_refuse_delete.html',
+				{'shopping_cart': shopping_cart,
+				 'sc_list': sc_list,
+				 }
+			)
+		else:
+			return render(
+				request,
+				'productinfo/shoppingcart_confirm_delete.html',
+				{'shopping_cart': shopping_cart}
+			)
+
+	def get_object(self, pk):
+		shopping_cart = get_object_or_404(
+			Shopping_Cart,
+			pk=pk
+		)
+		return shopping_cart
+
+	def post(self, request, pk):
+		shopping_cart = self.get_object(pk)
+		shopping_cart.delete()
+		return redirect('productinfo_shoppingcart_list_urlpattern')
 
 
 class CartItemList(View):
@@ -328,6 +397,29 @@ class CartItemUpdate(View):
 				request,
 				self.template_name,
 				context)
+
+
+class CartItemDelete(View):
+
+	def get(self, request, pk):
+		cart_item = self.get_object(pk)
+		return render(
+			request,
+			'productinfo/cartitem_confirm_delete.html',
+			{'cart_item': cart_item}
+		)
+
+	def get_object(self, pk):
+		cart_item = get_object_or_404(
+			Cart_Item,
+			pk=pk
+		)
+		return cart_item
+
+	def post(self, request, pk):
+		cart_item = self.get_object(pk)
+		cart_item.delete()
+		return redirect('productinfo_cartitem_list_urlpattern')
 
 
 class OrderList(View):
@@ -433,6 +525,39 @@ class OrderProductDetail(View):
 		)
 
 
+class OrderDelete(View):
+
+	def get(self, request, pk):
+		order = self.get_object(pk)
+		op_list = order.order_products.all()
+		if op_list.count() > 0:
+			return render(
+				request,
+				'productinfo/order_refuse_delete.html',
+				{'order': order,
+				 'op_list': op_list,
+				 }
+			)
+		else:
+			return render(
+				request,
+				'productinfo/order_confirm_delete.html',
+				{'order': order}
+			)
+
+	def get_object(self, pk):
+		order = get_object_or_404(
+			Order,
+			pk=pk
+		)
+		return order
+
+	def post(self, request, pk):
+		order = self.get_object(pk)
+		order.delete()
+		return redirect('productinfo_order_list_urlpattern')
+
+
 class OrderProductCreate(ObjectCreateMixin, View):
 	form_class = OrderProductForm
 	template_name = 'productinfo/orderproduct_form.html'
@@ -474,3 +599,26 @@ class OrderProductUpdate(View):
 				request,
 				self.template_name,
 				context)
+
+
+class OrderProductDelete(View):
+
+	def get(self, request, pk):
+		orderproduct = self.get_object(pk)
+		return render(
+			request,
+			'productinfo/orderproduct_confirm_delete.html',
+			{'orderproduct': orderproduct}
+		)
+
+	def get_object(self, pk):
+		orderproduct = get_object_or_404(
+			Order_Product,
+			pk=pk
+		)
+		return orderproduct
+
+	def post(self, request, pk):
+		orderproduct = self.get_object(pk)
+		orderproduct.delete()
+		return redirect('productinfo_orderproduct_list_urlpattern')

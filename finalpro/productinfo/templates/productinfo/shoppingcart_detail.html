@@ -1,15 +1,17 @@
 {% extends 'productinfo/base.html' %}
 
 {% block title %}
-    Shopping Cart - {{ shoppingcart }}
+    Shopping Cart - {{ shopping_cart }}
 {% endblock %}
 
 {% block content %}
-    <h2>{{ shoppingcart }}</h2>
+    <h2>{{ shopping_cart }}</h2>
     <ul>
         <li>
-            <a href="{{ shoppingcart.get_update_url }}">
+            <a href="{{ shopping_cart.get_update_url }}">
                 Edit ShoppingCart</a></li>
+    <li><a href="{{ shopping_cart.get_delete_url }}">
+                Delete ShoppingCart</a></li>
     </ul>
     <section>
         <table>
@@ -19,7 +21,7 @@
             </tr>
             <tr>
                 <th>Total Price:</th>
-                <td>{{ shoppingcart.total_price }}</td>
+                <td>{{ shopping_cart.total_price }}</td>
             </tr>
             <tr>
                 <th>Default Shipping Method:</th>

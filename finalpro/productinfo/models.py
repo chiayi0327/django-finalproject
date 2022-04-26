@@ -72,6 +72,11 @@ class Customer(models.Model):
 					   kwargs={'pk':self.pk}
 					   )
 
+	def get_delete_url(self):
+		return reverse('productinfo_customer_delete_urlpattern',
+					   kwargs={'pk':self.pk}
+					   )
+
 	class Meta:
 		ordering = ['customer_id']
 		constraints = [
@@ -131,6 +136,11 @@ class Shopping_Cart(models.Model):
 					   kwargs={'pk':self.pk}
 					   )
 
+	def get_delete_url(self):
+		return reverse('productinfo_shoppingcart_delete_urlpattern',
+					   kwargs={'pk':self.pk}
+					   )
+
 	class Meta:
 		ordering = ['cart_id']
 		constraints = [
@@ -154,6 +164,11 @@ class Cart_Item(models.Model):
 
 	def get_update_url(self):
 		return reverse('productinfo_cartitem_update_urlpattern',
+					   kwargs={'pk':self.pk}
+					   )
+
+	def get_delete_url(self):
+		return reverse('productinfo_cartitem_delete_urlpattern',
 					   kwargs={'pk':self.pk}
 					   )
 
@@ -187,6 +202,11 @@ class Order(models.Model):
 					   kwargs={'pk':self.pk}
 					   )
 
+	def get_delete_url(self):
+		return reverse('productinfo_order_delete_urlpattern',
+					   kwargs={'pk':self.pk}
+					   )
+
 	class Meta:
 		ordering = ['order_date', 'order_id']
 		constraints = [
@@ -211,6 +231,11 @@ class Order_Product(models.Model):
 
 	def get_update_url(self):
 		return reverse('productinfo_orderproduct_update_urlpattern',
+					   kwargs={'pk':self.pk}
+					   )
+
+	def get_delete_url(self):
+		return reverse('productinfo_orderproduct_delete_urlpattern',
 					   kwargs={'pk':self.pk}
 					   )
 

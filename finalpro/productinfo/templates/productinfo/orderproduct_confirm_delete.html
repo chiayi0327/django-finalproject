@@ -1,0 +1,19 @@
+{% extends 'productinfo/base.html' %}
+
+{% block title %}
+    Delete OrderProduct
+{% endblock %}
+
+{% block content %}
+    <form
+        action="{{ orderproduct.get_delete_url }}"
+        method="post">
+        {% csrf_token %}
+        <p>
+            Are you sure that you want to delete
+            Product in the Order {{ orderproduct }}?
+        </p>
+        <a href="{{ orderproduct.get_absolute_url }}">Cancel</a>
+        <button type="submit">Delete Order in Product</button>
+    </form>
+{% endblock %}

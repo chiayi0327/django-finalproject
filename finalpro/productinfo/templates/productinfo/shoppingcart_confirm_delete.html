@@ -1,0 +1,18 @@
+{% extends 'productinfo/base.html' %}
+
+{% block title %}
+    Delete Shopping Cart
+{% endblock %}
+
+{% block content %}
+    <form
+        action="{{ shoppingcart.get_delete_url }}"
+        method="post">
+        {% csrf_token %}
+        <p>
+            Are you sure that you want to delete shopping cart {{ shopping_cart }}?
+        </p>
+        <a href="{{ shoppingcart.get_absolute_url }}">Cancel</a>
+        <button type="submit">Delete Shopping cart</button>
+    </form>
+{% endblock %}

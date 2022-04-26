@@ -1,0 +1,26 @@
+{% extends 'productinfo/base.html' %}
+
+{% block title %}
+    Error Deleting Customer
+{% endblock %}
+
+{% block content %}
+    <div>
+        <h2>Error Deleting Order</h2>
+        <p>
+            You may not delete Order {{ order }}.  This
+            order had the following product in it:
+        </p>
+
+        <ul>
+            {% for item in op_list %}
+            <li><a href="{{ item.get_absolute_url }}">{{ item }}</a></li>
+            {%  endfor %}
+        </ul>
+
+
+        <p>
+            Return to <a href="{% url 'productinfo_order_list_urlpattern' %}">Order List</a>.
+        </p>
+    </div>
+{% endblock %}

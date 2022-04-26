@@ -10,6 +10,8 @@
         <li>
             <a href="{{ customer.get_update_url }}">
                 Edit Customer</a></li>
+    <li><a href="{{ customer.get_delete_url }}">
+                Delete Customer</a></li>
     </ul>
     <section>
         <table>
@@ -44,6 +46,19 @@
                 <td>{{ payment_method }}</td>
             </tr>
         </table>
+    </section>
+
+    <section>
+        <h3>Shopping Cart</h3>
+        <ul>
+            {% for detail in shopping_cart %}
+                <li>
+                    <a href="{{ detail.get_absolute_url }}">{{ detail }}</a>
+                </li>
+            {% empty %}
+                <li><em>There are currently no shopping cart for this customer.</em></li>
+            {% endfor %}
+        </ul>
     </section>
 
     <section>

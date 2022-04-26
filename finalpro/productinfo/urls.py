@@ -25,6 +25,11 @@ from productinfo.views import (
     OrderUpdate,
     OrderProductUpdate,
     ProductDelete,
+    CartItemDelete,
+    ShoppingCartDelete,
+    CustomerDelete,
+    OrderProductDelete,
+    OrderDelete,
 
 )
 
@@ -45,6 +50,10 @@ urlpatterns = [
     path('customer/<int:pk>/update/',
          CustomerUpdate.as_view(),
          name='productinfo_customer_update_urlpattern'),
+
+    path('customer/<int:pk>/delete/',
+         CustomerDelete.as_view(),
+         name='productinfo_customer_delete_urlpattern'),
 
     path('product/',
          ProductList.as_view(),
@@ -82,6 +91,10 @@ urlpatterns = [
          ShoppingCartUpdate.as_view(),
          name='productinfo_shoppingcart_update_urlpattern'),
 
+    path('shoppingcart/<int:pk>/delete/',
+         ShoppingCartDelete.as_view(),
+         name='productinfo_shoppingcart_delete_urlpattern'),
+
     path('cartitem/',
          CartItemList.as_view(),
          name='productinfo_cartitem_list_urlpattern'),
@@ -97,6 +110,10 @@ urlpatterns = [
     path('cartitem/<int:pk>/update/',
          CartItemUpdate.as_view(),
          name='productinfo_cartitem_update_urlpattern'),
+
+    path('cartitem/<int:pk>/delete/',
+         CartItemDelete.as_view(),
+         name='productinfo_cartitem_delete_urlpattern'),
 
     path('order/',
          OrderList.as_view(),
@@ -114,6 +131,10 @@ urlpatterns = [
          OrderUpdate.as_view(),
          name='productinfo_order_update_urlpattern'),
 
+    path('order/<int:pk>/delete/',
+         OrderDelete.as_view(),
+         name='productinfo_order_delete_urlpattern'),
+
     path('orderproduct/',
          OrderProductList.as_view(),
          name='productinfo_orderproduct_list_urlpattern'),
@@ -129,4 +150,9 @@ urlpatterns = [
     path('orderproduct/<int:pk>/update/',
          OrderProductUpdate.as_view(),
          name='productinfo_orderproduct_update_urlpattern'),
+
+    path('orderproduct/<int:pk>/delete/',
+         OrderProductDelete.as_view(),
+         name='productinfo_orderproduct_delete_urlpattern'),
+
 ]

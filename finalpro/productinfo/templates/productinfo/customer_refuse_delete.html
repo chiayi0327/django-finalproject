@@ -1,0 +1,33 @@
+{% extends 'productinfo/base.html' %}
+
+{% block title %}
+    Error Deleting Customer
+{% endblock %}
+
+{% block content %}
+    <div>
+        <h2>Error Deleting Customer</h2>
+        <p>
+            You may not delete customer {{ customer }}.  This
+            customer had the following information that is unclear:
+        </p>
+
+        <ul>
+        {% for detail in shopping_cart %}
+            <li><a href="{{ detail.get_absolute_url }}">{{ detail }}</a></li>
+                {% endfor %}
+
+        </ul>
+
+        <ul>
+            {% for order in orders %}
+            <li><a href="{{ order.get_absolute_url }}">{{ order }}</a></li>
+            {%  endfor %}
+        </ul>
+
+
+        <p>
+            Return to <a href="{% url 'productinfo_customer_list_urlpattern' %}">Customer List</a>.
+        </p>
+    </div>
+{% endblock %}
