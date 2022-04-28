@@ -1,6 +1,7 @@
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
+from django.views.generic import ListView
 
 from productinfo.forms import CustomerForm, ProductForm, ShoppingCartForm, CartItemForm, OrderForm, OrderProductForm
 from productinfo.models import (
@@ -15,14 +16,8 @@ from productinfo.models import (
 from productinfo.utils import ObjectCreateMixin
 
 
-class CustomerList(View):
-
-	def get(self, request):
-		return render(
-			request,
-			'productinfo/customer_list.html',
-			{'customer_list': Customer.objects.all()}
-		)
+class CustomerList(ListView):
+	model = Customer
 
 
 class CustomerDetail(View):
@@ -124,14 +119,8 @@ class CustomerDelete(View):
 		return redirect('productinfo_customer_list_urlpattern')
 
 
-class ProductList(View):
-
-	def get(self, request):
-		return render(
-			request,
-			'productinfo/product_list.html',
-			{'product_list': Product.objects.all()}
-		)
+class ProductList(ListView):
+	model = Product
 
 
 class ProductDetail(View):
@@ -423,14 +412,8 @@ class CartItemDelete(View):
 		return redirect('productinfo_cartitem_list_urlpattern')
 
 
-class OrderList(View):
-
-	def get(self, request):
-		return render(
-			request,
-			'productinfo/order_list.html',
-			{'order_list': Order.objects.all()}
-		)
+class OrderList(ListView):
+	model = Order
 
 
 class OrderDetail(View):
