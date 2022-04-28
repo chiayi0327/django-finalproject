@@ -320,14 +320,16 @@ class ShoppingCartDelete(View):
 		return redirect('productinfo_shoppingcart_list_urlpattern')
 
 
-class CartItemList(View):
-
-	def get(self, request):
-		return render(
-			request,
-			'productinfo/cartitem_list.html',
-			{'cartitem_list': Cart_Item.objects.all()}
-		)
+# class CartItemList(View):
+#
+# 	def get(self, request):
+# 		return render(
+# 			request,
+# 			'productinfo/cart_item_list.html',
+# 			{'cartitem_list': Cart_Item.objects.all()}
+# 		)
+class CartItemList(ListView):
+	model = Cart_Item
 
 
 class CartItemDetail(View):

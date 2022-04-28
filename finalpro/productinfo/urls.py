@@ -97,7 +97,7 @@ urlpatterns = [
 
     path('cartitem/',
          CartItemList.as_view(),
-         name='productinfo_cartitem_list_urlpattern'),
+         name='productinfo_cart_item_list_urlpattern'),
 
     path('cartitem/<int:pk>/',
          CartItemDetail.as_view(),
