@@ -137,7 +137,7 @@ urlpatterns = [
 
     path('orderproduct/',
          OrderProductList.as_view(),
-         name='productinfo_orderproduct_list_urlpattern'),
+         name='productinfo_order_product_list_urlpattern'),
 
     path('orderproduct/<int:pk>/',
          OrderProductDetail.as_view(),

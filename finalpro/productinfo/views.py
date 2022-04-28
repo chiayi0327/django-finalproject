@@ -485,34 +485,6 @@ class OrderUpdate(View):
 				context)
 
 
-class OrderProductList(View):
-
-	def get(self, request):
-		return render(
-			request,
-			'productinfo/orderproduct_list.html',
-			{'orderproduct_list': Order_Product.objects.all()}
-		)
-
-
-class OrderProductDetail(View):
-
-	def get(self, request, pk):
-		orderproduct = get_object_or_404(
-			Order_Product,
-			pk=pk
-		)
-		order_id = orderproduct.order_id
-		product_id = orderproduct.product_id
-		return render(
-			request,
-			'productinfo/orderproduct_detail.html',
-			{'orderproduct': orderproduct,
-			 'order_id': order_id,
-			 'product_id': product_id}
-		)
-
-
 class OrderDelete(View):
 
 	def get(self, request, pk):
@@ -544,6 +516,36 @@ class OrderDelete(View):
 		order = self.get_object(pk)
 		order.delete()
 		return redirect('productinfo_order_list_urlpattern')
+
+
+# class OrderProductList(View):
+#
+# 	def get(self, request):
+# 		return render(
+# 			request,
+# 			'productinfo/order_product_list.html',
+# 			{'orderproduct_list': Order_Product.objects.all()}
+# 		)
+class OrderProductList(ListView):
+	model = Order_Product
+
+
+class OrderProductDetail(View):
+
+	def get(self, request, pk):
+		orderproduct = get_object_or_404(
+			Order_Product,
+			pk=pk
+		)
+		order_id = orderproduct.order_id
+		product_id = orderproduct.product_id
+		return render(
+			request,
+			'productinfo/orderproduct_detail.html',
+			{'orderproduct': orderproduct,
+			 'order_id': order_id,
+			 'product_id': product_id}
+		)
 
 
 class OrderProductCreate(ObjectCreateMixin, View):
