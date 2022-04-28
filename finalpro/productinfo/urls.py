@@ -77,7 +77,7 @@ urlpatterns = [
 
     path('shoppingcart/',
          ShoppingCartList.as_view(),
-         name='productinfo_shoppingcart_list_urlpattern'),
+         name='productinfo_shopping_cart_list_urlpattern'),
 
     path('shoppingcart/<int:pk>/',
          ShoppingCartDetail.as_view(),

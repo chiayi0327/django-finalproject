@@ -204,14 +204,16 @@ class ProductDelete(View):
 		return redirect('productinfo_product_list_urlpattern')
 
 
-class ShoppingCartList(View):
-
-	def get(self, request):
-		return render(
-			request,
-			'productinfo/shoppingcart_list.html',
-			{'shoppingcart_list': Shopping_Cart.objects.all()}
-		)
+# class ShoppingCartList(View):
+#
+# 	def get(self, request):
+# 		return render(
+# 			request,
+# 			'productinfo/shopping_cart_list.html',
+# 			{'shoppingcart_list': Shopping_Cart.objects.all()}
+# 		)
+class ShoppingCartList(ListView):
+	model = Shopping_Cart
 
 
 class ShoppingCartDetail(View):
