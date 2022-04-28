@@ -8,9 +8,10 @@
     <h2>{{ product }}</h2>
     <ul>
         <li>
-            <a href="{{ product.get_update_url }}">
+            <a href="{{ product.get_update_url }}" class="button button-primary">
                 Edit Product</a></li>
-            <a href="{{ product.get_delete_url }}">Delete Product</a>
+        <li>
+            <a href="{{ product.get_delete_url }}" class="button button-primary">Delete Product</a></li>
     </ul>
     <section>
         <table>

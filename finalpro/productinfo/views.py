@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
 
@@ -42,7 +43,7 @@ class CustomerDetail(View):
 			 'shipping_method': shipping_method,
 			 'payment_method': payment_method,
 			 'order_list': order_list,
-			 'shopping_cart':shopping_cart}
+			 'shopping_cart': shopping_cart}
 		)
 
 
@@ -102,7 +103,7 @@ class CustomerDelete(View):
 				'productinfo/customer_refuse_delete.html',
 				{'customer': customer,
 				 'orders': orders,
-				 'shopping_cart':shopping_cart,
+				 'shopping_cart': shopping_cart,
 				 }
 			)
 		else:

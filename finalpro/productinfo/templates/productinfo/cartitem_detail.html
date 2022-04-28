@@ -6,11 +6,11 @@
 
 {% block content %}
     <h2>{{ cartitem }}</h2>
-    <ul>
+    <ul class="ezu-button-list">
         <li>
-            <a href="{{ cartitem.get_update_url }}">
+            <a href="{{ cartitem.get_update_url }}" class="button button-primary">
                 Edit CartItem</a></li>
-        <li><a href="{{ cartitem.get_delete_url }}">
+        <li><a href="{{ cartitem.get_delete_url }}" class="button button-primary">
                 Delete CartItem</a></li>
     </ul>
     <section>

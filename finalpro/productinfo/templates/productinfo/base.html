@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,14 +14,23 @@
     <!--[if IE]><script
       src="http://html5shiv.googlecode.com/svn/trunk/html5.js">
     </script><![endif]-->
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'productinfo/normalize.css' %}">
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'productinfo/skeleton.css' %}">
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'productinfo/style.css' %}">
+    {% block head %}{% endblock %}
 </head>
 
 <body>
 
-<div><!-- start of container -->
-    <header>
-        <h1>Ecommerce Website</h1>
-        <h2>Product Information System</h2>
+<div class="container">
+    <header class="row">
+        <div class="offset-by-one ten columns">
+            <h1>Ecommerce Website</h1>
+            <h2>Product Information System</h2>
+        </div>
     </header>
     <nav>
         <ul>
@@ -46,25 +56,46 @@
     </nav>
     <main>
         {% block content %}
-            This is default content!
+            <div class="row">
+                <section class="eight columns">
+                    {% block org_content %}
+                        This is default content!
+                    {% endblock %}
+                </section>
+                <section class="desktop four columns">
+                    {% block create_button %}{% endblock %}
+                </section>
+            </div>
+            <div class="row">
+                <div class="twelve columns">
+                    {% block content_footer %}{% endblock %}
+                </div>
+            </div>
         {% endblock %}
     </main>
-</div><!-- end of container -->
+</div><!-- container -->
 
 <footer>
     <p>
         <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
             <img alt="Creative Commons License" style="border-width:0"
                  src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png"/>
-        </a><br/><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">EZ University Tutorial Examples and Code</span>
+        </a><br/><span property="dct:title">EZ University Tutorial Examples and Code</span>
         by
-        <a xmlns:cc="http://creativecommons.org/ns#" href="https://www.ligent.net" property="cc:attributionName"
+        <a href="https://www.ligent.net" property="cc:attributionName"
            rel="cc:attributionURL">Ligent, LLC</a> are licensed under a
         <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike
             4.0 International License</a>.
     </p>
+    <p>Portions of the EZ University code are based upon code from
+        <a href="https://django-unleashed.com">Django Unleashed</a>,
+        <a href="http://getskeleton.com/">Skeleton</a>, and
+        <a href="https://necolas.github.io/normalize.css/">Normalize.css</a> and
+        are subject to the intellectual property rights restrictions of those works.
+    </p>
 </footer>
 
 </body>
+
 </html>
 
