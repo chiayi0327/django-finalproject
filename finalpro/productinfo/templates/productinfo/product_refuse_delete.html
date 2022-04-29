@@ -1,0 +1,35 @@
+{% extends 'productinfo/base.html' %}
+
+{% block title %}
+    Error Deleting Product
+{% endblock %}
+
+{% block content %}
+    <div>
+        <h2>Error Deleting Product</h2>
+        <p>
+            You may not delete product {{ product }}.  This
+            product had the following information that is unclear:
+        </p>
+
+        <ul>
+        <p>The product is in customer's shopping cart:</p>
+        {% for detail in cartitem %}
+            <li><a href="{{ detail.get_absolute_url }}">{{ detail }}</a></li>
+                {% endfor %}
+
+        </ul>
+
+        <ul>
+        <p>The product is in the order:</p>
+            {% for order in orderproduct %}
+            <li><a href="{{ order.get_absolute_url }}">{{ order }}</a></li>
+            {%  endfor %}
+        </ul>
+
+
+        <p>
+            Return to <a href="{% url 'productinfo_product_list_urlpattern' %}">Product List</a>.
+        </p>
+    </div>
+{% endblock %}

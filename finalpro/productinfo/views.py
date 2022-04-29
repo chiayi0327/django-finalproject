@@ -1,7 +1,8 @@
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from productinfo.forms import CustomerForm, ProductForm, ShoppingCartForm, CartItemForm, OrderForm, OrderProductForm
 from productinfo.models import (
@@ -111,11 +112,25 @@ class ProductDelete(View):
 
 	def get(self, request, pk):
 		product = self.get_object(pk)
-		return render(
-			request,
-			'productinfo/product_confirm_delete.html',
-			{'product': product}
-		)
+		cartitem = product.cart_items.all()
+		orderproduct = product.order_products.all()
+
+		if orderproduct.count() > 0 or cartitem.count() > 0:
+			return render(
+				request,
+				'productinfo/product_refuse_delete.html',
+				{'product':product,
+				 'cartitem': cartitem,
+				 'orderproduct':orderproduct,
+
+				}
+			)
+		else:
+			return render(
+				request,
+				'productinfo/product_confirm_delete.html',
+				{'product':product}
+			)
 
 	def get_object(self, pk):
 		product = get_object_or_404(
@@ -130,14 +145,16 @@ class ProductDelete(View):
 		return redirect('productinfo_product_list_urlpattern')
 
 
-# class ShoppingCartList(View):
-#
-# 	def get(self, request):
-# 		return render(
-# 			request,
-# 			'productinfo/shopping_cart_list.html',
-# 			{'shoppingcart_list': Shopping_Cart.objects.all()}
-# 		)
+class ShoppingCartList(View):
+
+	def get(self, request):
+		return render(
+			request,
+			'productinfo/shopping_cart_list.html',
+			{'shoppingcart_list': Shopping_Cart.objects.all()}
+		)
+
+
 class ShoppingCartList(ListView):
 	model = Shopping_Cart
 
@@ -191,42 +208,46 @@ class ShoppingCartDetail(DetailView):
 		return context
 
 
-class ShoppingCartUpdate(View):
+# class ShoppingCartUpdate(View):
+# 	form_class = ShoppingCartForm
+# 	model = Shopping_Cart
+# 	template_name = 'productinfo/shopping_cart_form_update.html'
+#
+# 	def get_object(self, pk):
+# 		return get_object_or_404(
+# 			self.model,
+# 			pk=pk)
+#
+# 	def get(self, request, pk):
+# 		shopping_cart = self.get_object(pk)
+# 		context = {
+# 			'form': self.form_class(
+# 				instance=shopping_cart),
+# 			'product': shopping_cart,
+# 		}
+# 		return render(
+# 			request, self.template_name, context)
+#
+# 	def post(self, request, pk):
+# 		shopping_cart = self.get_object(pk)
+# 		bound_form = self.form_class(
+# 			request.POST, instance=shopping_cart)
+# 		if bound_form.is_valid():
+# 			new_shoppingcart = bound_form.save()
+# 			return redirect(new_shoppingcart)
+# 		else:
+# 			context = {
+# 				'form': bound_form,
+# 				'shopping_cart': shopping_cart,
+# 			}
+# 			return render(
+# 				request,
+# 				self.template_name,
+# 				context)
+class ShoppingCartUpdate(UpdateView):
 	form_class = ShoppingCartForm
 	model = Shopping_Cart
-	template_name = 'productinfo/shoppingcart_form_update.html'
-
-	def get_object(self, pk):
-		return get_object_or_404(
-			self.model,
-			pk=pk)
-
-	def get(self, request, pk):
-		shopping_cart = self.get_object(pk)
-		context = {
-			'form': self.form_class(
-				instance=shopping_cart),
-			'product': shopping_cart,
-		}
-		return render(
-			request, self.template_name, context)
-
-	def post(self, request, pk):
-		shopping_cart = self.get_object(pk)
-		bound_form = self.form_class(
-			request.POST, instance=shopping_cart)
-		if bound_form.is_valid():
-			new_shoppingcart = bound_form.save()
-			return redirect(new_shoppingcart)
-		else:
-			context = {
-				'form': bound_form,
-				'shopping_cart': shopping_cart,
-			}
-			return render(
-				request,
-				self.template_name,
-				context)
+	template_name = 'productinfo/shopping_cart_form_update.html'
 
 
 # class ShoppingCartCreate(ObjectCreateMixin, View):
@@ -321,42 +342,46 @@ class CartItemCreate(CreateView):
 	model = Cart_Item
 
 
-class CartItemUpdate(View):
+# class CartItemUpdate(View):
+# 	form_class = CartItemForm
+# 	model = Cart_Item
+# 	template_name = 'productinfo/cart_item_form_update.html'
+#
+# 	def get_object(self, pk):
+# 		return get_object_or_404(
+# 			self.model,
+# 			pk=pk)
+#
+# 	def get(self, request, pk):
+# 		cart_item = self.get_object(pk)
+# 		context = {
+# 			'form': self.form_class(
+# 				instance=cart_item),
+# 			'cart_item': cart_item,
+# 		}
+# 		return render(
+# 			request, self.template_name, context)
+#
+# 	def post(self, request, pk):
+# 		cart_item = self.get_object(pk)
+# 		bound_form = self.form_class(
+# 			request.POST, instance=cart_item)
+# 		if bound_form.is_valid():
+# 			new_cartitem = bound_form.save()
+# 			return redirect(new_cartitem)
+# 		else:
+# 			context = {
+# 				'form': bound_form,
+# 				'cart_item': cart_item,
+# 			}
+# 			return render(
+# 				request,
+# 				self.template_name,
+# 				context)
+class CartItemUpdate(UpdateView):
 	form_class = CartItemForm
 	model = Cart_Item
-	template_name = 'productinfo/cartitem_form_update.html'
-
-	def get_object(self, pk):
-		return get_object_or_404(
-			self.model,
-			pk=pk)
-
-	def get(self, request, pk):
-		cart_item = self.get_object(pk)
-		context = {
-			'form': self.form_class(
-				instance=cart_item),
-			'cart_item': cart_item,
-		}
-		return render(
-			request, self.template_name, context)
-
-	def post(self, request, pk):
-		cart_item = self.get_object(pk)
-		bound_form = self.form_class(
-			request.POST, instance=cart_item)
-		if bound_form.is_valid():
-			new_cartitem = bound_form.save()
-			return redirect(new_cartitem)
-		else:
-			context = {
-				'form': bound_form,
-				'cart_item': cart_item,
-			}
-			return render(
-				request,
-				self.template_name,
-				context)
+	template_name = 'productinfo/cart_item_form_update.html'
 
 
 class CartItemDelete(View):
@@ -504,42 +529,46 @@ class OrderProductCreate(CreateView):
 	model = Order_Product
 
 
-class OrderProductUpdate(View):
+# class OrderProductUpdate(View):
+# 	form_class = OrderProductForm
+# 	model = Order_Product
+# 	template_name = 'productinfo/order_product_form_update.html'
+#
+# 	def get_object(self, pk):
+# 		return get_object_or_404(
+# 			self.model,
+# 			pk=pk)
+#
+# 	def get(self, request, pk):
+# 		orderproduct = self.get_object(pk)
+# 		context = {
+# 			'form': self.form_class(
+# 				instance=orderproduct),
+# 			'orderproduct': orderproduct,
+# 		}
+# 		return render(
+# 			request, self.template_name, context)
+#
+# 	def post(self, request, pk):
+# 		orderproduct = self.get_object(pk)
+# 		bound_form = self.form_class(
+# 			request.POST, instance=orderproduct)
+# 		if bound_form.is_valid():
+# 			new_orderproduct = bound_form.save()
+# 			return redirect(new_orderproduct)
+# 		else:
+# 			context = {
+# 				'form': bound_form,
+# 				'orderproduct': orderproduct,
+# 			}
+# 			return render(
+# 				request,
+# 				self.template_name,
+# 				context)
+class OrderProductUpdate(UpdateView):
 	form_class = OrderProductForm
 	model = Order_Product
-	template_name = 'productinfo/orderproduct_form_update.html'
-
-	def get_object(self, pk):
-		return get_object_or_404(
-			self.model,
-			pk=pk)
-
-	def get(self, request, pk):
-		orderproduct = self.get_object(pk)
-		context = {
-			'form': self.form_class(
-				instance=orderproduct),
-			'orderproduct': orderproduct,
-		}
-		return render(
-			request, self.template_name, context)
-
-	def post(self, request, pk):
-		orderproduct = self.get_object(pk)
-		bound_form = self.form_class(
-			request.POST, instance=orderproduct)
-		if bound_form.is_valid():
-			new_orderproduct = bound_form.save()
-			return redirect(new_orderproduct)
-		else:
-			context = {
-				'form': bound_form,
-				'orderproduct': orderproduct,
-			}
-			return render(
-				request,
-				self.template_name,
-				context)
+	template_name = 'productinfo/order_product_form_update.html'
 
 
 class OrderProductDelete(View):

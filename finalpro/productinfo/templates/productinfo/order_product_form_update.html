@@ -6,7 +6,7 @@
 
 {% block content %}
     <form
-        action="{{ orderproduct.get_update_url }}"
+        action="{{ order_product.get_update_url }}"
         method="post">
         {% csrf_token %}
         {{ form.as_p }}

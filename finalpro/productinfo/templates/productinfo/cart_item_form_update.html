@@ -6,7 +6,7 @@
 
 {% block content %}
     <form
-        action="{{ cartitem.get_update_url }}"
+        action="{{ cart_item.get_update_url }}"
         method="post">
         {% csrf_token %}
         {{ form.as_p }}
