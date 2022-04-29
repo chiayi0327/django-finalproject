@@ -6,14 +6,14 @@
 
 {% block content %}
     <form
-        action="{{ orderproduct.get_delete_url }}"
+        action="{{ order_product.get_delete_url }}"
         method="post">
         {% csrf_token %}
         <p>
             Are you sure that you want to delete
-            Product in the Order {{ orderproduct }}?
+            Product in the Order {{ order_product }}?
         </p>
-        <a href="{{ orderproduct.get_absolute_url }}">Cancel</a>
+        <a href="{{ order_product.get_absolute_url }}">Cancel</a>
         <button type="submit" class="button button-primary">Delete Order in Product</button>
     </form>
 {% endblock %}

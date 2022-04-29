@@ -384,27 +384,30 @@ class CartItemUpdate(UpdateView):
 	template_name = 'productinfo/cart_item_form_update.html'
 
 
-class CartItemDelete(View):
-
-	def get(self, request, pk):
-		cart_item = self.get_object(pk)
-		return render(
-			request,
-			'productinfo/cartitem_confirm_delete.html',
-			{'cart_item': cart_item}
-		)
-
-	def get_object(self, pk):
-		cart_item = get_object_or_404(
-			Cart_Item,
-			pk=pk
-		)
-		return cart_item
-
-	def post(self, request, pk):
-		cart_item = self.get_object(pk)
-		cart_item.delete()
-		return redirect('productinfo_cartitem_list_urlpattern')
+# class CartItemDelete(View):
+#
+# 	def get(self, request, pk):
+# 		cart_item = self.get_object(pk)
+# 		return render(
+# 			request,
+# 			'productinfo/cart_item_confirm_delete.html',
+# 			{'cart_item': cart_item}
+# 		)
+#
+# 	def get_object(self, pk):
+# 		cart_item = get_object_or_404(
+# 			Cart_Item,
+# 			pk=pk
+# 		)
+# 		return cart_item
+#
+# 	def post(self, request, pk):
+# 		cart_item = self.get_object(pk)
+# 		cart_item.delete()
+# 		return redirect('productinfo_cartitem_list_urlpattern')
+class CartItemDelete(DeleteView):
+	model = Cart_Item
+	success_url = reverse_lazy('productinfo_cart_item_list_urlpattern')
 
 
 class OrderList(ListView):
@@ -571,24 +574,27 @@ class OrderProductUpdate(UpdateView):
 	template_name = 'productinfo/order_product_form_update.html'
 
 
-class OrderProductDelete(View):
-
-	def get(self, request, pk):
-		orderproduct = self.get_object(pk)
-		return render(
-			request,
-			'productinfo/orderproduct_confirm_delete.html',
-			{'orderproduct': orderproduct}
-		)
-
-	def get_object(self, pk):
-		orderproduct = get_object_or_404(
-			Order_Product,
-			pk=pk
-		)
-		return orderproduct
-
-	def post(self, request, pk):
-		orderproduct = self.get_object(pk)
-		orderproduct.delete()
-		return redirect('productinfo_orderproduct_list_urlpattern')
+# class OrderProductDelete(View):
+#
+# 	def get(self, request, pk):
+# 		orderproduct = self.get_object(pk)
+# 		return render(
+# 			request,
+# 			'productinfo/order_product_confirm_delete.html',
+# 			{'orderproduct': orderproduct}
+# 		)
+#
+# 	def get_object(self, pk):
+# 		orderproduct = get_object_or_404(
+# 			Order_Product,
+# 			pk=pk
+# 		)
+# 		return orderproduct
+#
+# 	def post(self, request, pk):
+# 		orderproduct = self.get_object(pk)
+# 		orderproduct.delete()
+# 		return redirect('productinfo_orderproduct_list_urlpattern')
+class OrderProductDelete(DeleteView):
+	model = Order_Product
+	success_url = reverse_lazy('productinfo_order_product_list_urlpattern')
