@@ -1,7 +1,7 @@
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 
 from productinfo.forms import CustomerForm, ProductForm, ShoppingCartForm, CartItemForm, OrderForm, OrderProductForm
 from productinfo.models import (
@@ -41,42 +41,10 @@ class CustomerCreate(CreateView):
 	model = Customer
 
 
-class CustomerUpdate(View):
+class CustomerUpdate(UpdateView):
 	form_class = CustomerForm
 	model = Customer
 	template_name = 'productinfo/customer_form_update.html'
-
-	def get_object(self, pk):
-		return get_object_or_404(
-			self.model,
-			pk=pk)
-
-	def get(self, request, pk):
-		customer = self.get_object(pk)
-		context = {
-			'form': self.form_class(
-				instance=customer),
-			'customer': customer,
-		}
-		return render(
-			request, self.template_name, context)
-
-	def post(self, request, pk):
-		customer = self.get_object(pk)
-		bound_form = self.form_class(
-			request.POST, instance=customer)
-		if bound_form.is_valid():
-			new_customer = bound_form.save()
-			return redirect(new_customer)
-		else:
-			context = {
-				'form': bound_form,
-				'customer': customer,
-			}
-			return render(
-				request,
-				self.template_name,
-				context)
 
 
 class CustomerDelete(View):
@@ -133,42 +101,10 @@ class ProductCreate(CreateView):
 	model = Product
 
 
-class ProductUpdate(View):
+class ProductUpdate(UpdateView):
 	form_class = ProductForm
 	model = Product
 	template_name = 'productinfo/product_form_update.html'
-
-	def get_object(self, pk):
-		return get_object_or_404(
-			self.model,
-			pk=pk)
-
-	def get(self, request, pk):
-		product = self.get_object(pk)
-		context = {
-			'form': self.form_class(
-				instance=product),
-			'product': product,
-		}
-		return render(
-			request, self.template_name, context)
-
-	def post(self, request, pk):
-		product = self.get_object(pk)
-		bound_form = self.form_class(
-			request.POST, instance=product)
-		if bound_form.is_valid():
-			new_product = bound_form.save()
-			return redirect(new_product)
-		else:
-			context = {
-				'form': bound_form,
-				'product': product,
-			}
-			return render(
-				request,
-				self.template_name,
-				context)
 
 
 class ProductDelete(View):
@@ -478,42 +414,10 @@ class OrderCreate(CreateView):
 	model = Order
 
 
-class OrderUpdate(View):
+class OrderUpdate(UpdateView):
 	form_class = OrderForm
 	model = Order
 	template_name = 'productinfo/order_form_update.html'
-
-	def get_object(self, pk):
-		return get_object_or_404(
-			self.model,
-			pk=pk)
-
-	def get(self, request, pk):
-		order = self.get_object(pk)
-		context = {
-			'form': self.form_class(
-				instance=order),
-			'order': order,
-		}
-		return render(
-			request, self.template_name, context)
-
-	def post(self, request, pk):
-		order = self.get_object(pk)
-		bound_form = self.form_class(
-			request.POST, instance=order)
-		if bound_form.is_valid():
-			new_order = bound_form.save()
-			return redirect(new_order)
-		else:
-			context = {
-				'form': bound_form,
-				'order': order,
-			}
-			return render(
-				request,
-				self.template_name,
-				context)
 
 
 class OrderDelete(View):
