@@ -1,7 +1,7 @@
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 
 from productinfo.forms import CustomerForm, ProductForm, ShoppingCartForm, CartItemForm, OrderForm, OrderProductForm
 from productinfo.models import (
@@ -20,26 +20,41 @@ class CustomerList(ListView):
 	model = Customer
 
 
-class CustomerDetail(View):
+# class CustomerDetail(View):
+#
+# 	def get(self, request, pk):
+# 		customer = get_object_or_404(
+# 			Customer,
+# 			pk=pk
+# 		)
+# 		shipping_method = customer.sm_id
+# 		payment_method = customer.pm_id
+# 		order_list = customer.orders.all()
+# 		shopping_cart = customer.shopping_carts.all()
+# 		return render(
+# 			request,
+# 			'productinfo/customer_detail.html',
+# 			{'customer': customer,
+# 			 'shipping_method': shipping_method,
+# 			 'payment_method': payment_method,
+# 			 'order_list': order_list,
+# 			 'shopping_cart': shopping_cart}
+# 		)
+class CustomerDetail(DetailView):
+	model = Customer
 
-	def get(self, request, pk):
-		customer = get_object_or_404(
-			Customer,
-			pk=pk
-		)
+	def get_context_data(self, **kwargs):
+		context = super(DetailView, self).get_context_data(**kwargs)
+		customer = self.get_object()
 		shipping_method = customer.sm_id
 		payment_method = customer.pm_id
 		order_list = customer.orders.all()
 		shopping_cart = customer.shopping_carts.all()
-		return render(
-			request,
-			'productinfo/customer_detail.html',
-			{'customer': customer,
-			 'shipping_method': shipping_method,
-			 'payment_method': payment_method,
-			 'order_list': order_list,
-			 'shopping_cart': shopping_cart}
-		)
+		context['shipping_method'] = shipping_method
+		context['payment_method'] = payment_method
+		context['order_list'] = order_list
+		context['shopping_cart'] = shopping_cart
+		return context
 
 
 class CustomerCreate(ObjectCreateMixin, View):
@@ -123,19 +138,28 @@ class ProductList(ListView):
 	model = Product
 
 
-class ProductDetail(View):
+# class ProductDetail(View):
+#
+# 	def get(self, request, pk):
+# 		product = get_object_or_404(
+# 			Product,
+# 			pk=pk
+# 		)
+# 		category = product.category_id
+# 		return render(
+# 			request,
+# 			'productinfo/product_detail.html',
+# 			{'product': product, 'category': category}
+# 		)
+class ProductDetail(DetailView):
+	model = Product
 
-	def get(self, request, pk):
-		product = get_object_or_404(
-			Product,
-			pk=pk
-		)
+	def get_context_data(self, **kwargs):
+		context = super(DetailView, self).get_context_data(**kwargs)
+		product = self.get_object()
 		category = product.category_id
-		return render(
-			request,
-			'productinfo/product_detail.html',
-			{'product': product, 'category': category}
-		)
+		context['category'] = category
+		return context
 
 
 class ProductCreate(ObjectCreateMixin, View):
@@ -420,26 +444,41 @@ class OrderList(ListView):
 	model = Order
 
 
-class OrderDetail(View):
+# class OrderDetail(View):
+#
+# 	def get(self, request, pk):
+# 		order = get_object_or_404(
+# 			Order,
+# 			pk=pk
+# 		)
+# 		customer_id = order.customer_id
+# 		shipping_method = order.sm_id
+# 		payment_method = order.pm_id
+# 		product_list = order.order_products.all()
+# 		return render(
+# 			request,
+# 			'productinfo/order_detail.html',
+# 			{'order': order,
+# 			 'customer_id': customer_id,
+# 			 'shipping_method': shipping_method,
+# 			 'payment_method': payment_method,
+# 			 'product_list': product_list}
+# 		)
+class OrderDetail(DetailView):
+	model = Order
 
-	def get(self, request, pk):
-		order = get_object_or_404(
-			Order,
-			pk=pk
-		)
+	def get_context_data(self, **kwargs):
+		context = super(DetailView, self).get_context_data(**kwargs)
+		order = self.get_object()
 		customer_id = order.customer_id
 		shipping_method = order.sm_id
 		payment_method = order.pm_id
 		product_list = order.order_products.all()
-		return render(
-			request,
-			'productinfo/order_detail.html',
-			{'order': order,
-			 'customer_id': customer_id,
-			 'shipping_method': shipping_method,
-			 'payment_method': payment_method,
-			 'product_list': product_list}
-		)
+		context['customer_id'] = customer_id
+		context['shipping_method'] = shipping_method
+		context['payment_method'] = payment_method
+		context['product_list'] = product_list
+		return context
 
 
 class OrderCreate(ObjectCreateMixin, View):
