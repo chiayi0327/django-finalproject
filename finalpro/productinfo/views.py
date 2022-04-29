@@ -13,7 +13,6 @@ from productinfo.models import (
 	Order_Product,
 
 )
-from productinfo.utils import ObjectCreateMixin
 
 
 class CustomerList(ListView):
@@ -474,9 +473,9 @@ class OrderDetail(DetailView):
 		return context
 
 
-class OrderCreate(ObjectCreateMixin, View):
+class OrderCreate(CreateView):
 	form_class = OrderForm
-	template_name = 'productinfo/order_form.html'
+	model = Order
 
 
 class OrderUpdate(View):
@@ -593,9 +592,12 @@ class OrderProductDetail(DetailView):
 		return context
 
 
-class OrderProductCreate(ObjectCreateMixin, View):
+# class OrderProductCreate(ObjectCreateMixin, View):
+# 	form_class = OrderProductForm
+# 	template_name = 'productinfo/order_product_form.html'
+class OrderProductCreate(CreateView):
 	form_class = OrderProductForm
-	template_name = 'productinfo/orderproduct_form.html'
+	model = Order_Product
 
 
 class OrderProductUpdate(View):
