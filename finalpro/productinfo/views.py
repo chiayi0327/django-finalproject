@@ -1,7 +1,7 @@
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
 
 from productinfo.forms import CustomerForm, ProductForm, ShoppingCartForm, CartItemForm, OrderForm, OrderProductForm
 from productinfo.models import (
@@ -37,9 +37,9 @@ class CustomerDetail(DetailView):
 		return context
 
 
-class CustomerCreate(ObjectCreateMixin, View):
+class CustomerCreate(CreateView):
 	form_class = CustomerForm
-	template_name = 'productinfo/customer_form.html'
+	model = Customer
 
 
 class CustomerUpdate(View):
@@ -129,9 +129,9 @@ class ProductDetail(DetailView):
 		return context
 
 
-class ProductCreate(ObjectCreateMixin, View):
+class ProductCreate(CreateView):
 	form_class = ProductForm
-	template_name = 'productinfo/product_form.html'
+	model = Product
 
 
 class ProductUpdate(View):
@@ -294,9 +294,12 @@ class ShoppingCartUpdate(View):
 				context)
 
 
-class ShoppingCartCreate(ObjectCreateMixin, View):
+# class ShoppingCartCreate(ObjectCreateMixin, View):
+# 	form_class = ShoppingCartForm
+# 	template_name = 'productinfo/shopping_cart_form.html'
+class ShoppingCartCreate(CreateView):
 	form_class = ShoppingCartForm
-	template_name = 'productinfo/shoppingcart_form.html'
+	model = Shopping_Cart
 
 
 class ShoppingCartDelete(View):
