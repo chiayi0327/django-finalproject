@@ -378,9 +378,12 @@ class CartItemDetail(DetailView):
 		return context
 
 
-class CartItemCreate(ObjectCreateMixin, View):
+# class CartItemCreate(ObjectCreateMixin, View):
+# 	form_class = CartItemForm
+# 	template_name = 'productinfo/cart_item_form.html'
+class CartItemCreate(CreateView):
 	form_class = CartItemForm
-	template_name = 'productinfo/cartitem_form.html'
+	model = Cart_Item
 
 
 class CartItemUpdate(View):
