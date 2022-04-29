@@ -240,13 +240,38 @@ class ShoppingCartList(ListView):
 	model = Shopping_Cart
 
 
-class ShoppingCartDetail(View):
+# class ShoppingCartDetail(View):
+#
+# 	def get(self, request, pk):
+# 		shopping_cart = get_object_or_404(
+# 			Shopping_Cart,
+# 			pk=pk
+# 		)
+# 		customer_id = shopping_cart.customer_id
+# 		shipping_method = shopping_cart.sm_id
+# 		payment_method = shopping_cart.pm_id
+# 		sc_list = shopping_cart.cart_items.all()
+#
+# 		total = 0
+# 		for product in sc_list:
+# 			total = product.quantity * product.product_id.product_price + total
+#
+# 		return render(
+# 			request,
+# 			'productinfo/shopping_cart_detail.html',
+# 			{'shopping_cart': shopping_cart,
+# 			 'customer_id': customer_id,
+# 			 'shipping_method': shipping_method,
+# 			 'payment_method': payment_method,
+# 			 'sc_list': sc_list,
+# 			 'total': total}
+# 		)
+class ShoppingCartDetail(DetailView):
+	model = Shopping_Cart
 
-	def get(self, request, pk):
-		shopping_cart = get_object_or_404(
-			Shopping_Cart,
-			pk=pk
-		)
+	def get_context_data(self, **kwargs):
+		context = super(DetailView, self).get_context_data(**kwargs)
+		shopping_cart = self.get_object()
 		customer_id = shopping_cart.customer_id
 		shipping_method = shopping_cart.sm_id
 		payment_method = shopping_cart.pm_id
@@ -256,16 +281,12 @@ class ShoppingCartDetail(View):
 		for product in sc_list:
 			total = product.quantity * product.product_id.product_price + total
 
-		return render(
-			request,
-			'productinfo/shoppingcart_detail.html',
-			{'shopping_cart': shopping_cart,
-			 'customer_id': customer_id,
-			 'shipping_method': shipping_method,
-			 'payment_method': payment_method,
-			 'sc_list': sc_list,
-			 'total': total}
-		)
+		context['customer_id'] = customer_id
+		context['shipping_method'] = shipping_method
+		context['payment_method'] = payment_method
+		context['sc_list'] = sc_list
+		context['total'] = total
+		return context
 
 
 class ShoppingCartUpdate(View):
