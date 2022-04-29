@@ -1,11 +1,11 @@
 {% extends 'productinfo/base.html' %}
 
 {% block title %}
-    Cart Item - {{ cartitem }}
+    Cart Item - {{ cart_item }}
 {% endblock %}
 
 {% block content %}
-    <h2>{{ cartitem }}</h2>
+    <h2>{{ cart_item }}</h2>
     <ul class="ezu-button-list">
         <li>
             <a href="{{ cartitem.get_update_url }}" class="button button-primary">
@@ -21,7 +21,7 @@
             </tr>
             <tr>
                 <th>Quantity:</th>
-                <td>{{ cartitem.quantity }}</td>
+                <td>{{ cart_item.quantity }}</td>
             </tr>
             <tr>
                 <th>product name:</th>

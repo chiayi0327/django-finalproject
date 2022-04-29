@@ -20,26 +20,6 @@ class CustomerList(ListView):
 	model = Customer
 
 
-# class CustomerDetail(View):
-#
-# 	def get(self, request, pk):
-# 		customer = get_object_or_404(
-# 			Customer,
-# 			pk=pk
-# 		)
-# 		shipping_method = customer.sm_id
-# 		payment_method = customer.pm_id
-# 		order_list = customer.orders.all()
-# 		shopping_cart = customer.shopping_carts.all()
-# 		return render(
-# 			request,
-# 			'productinfo/customer_detail.html',
-# 			{'customer': customer,
-# 			 'shipping_method': shipping_method,
-# 			 'payment_method': payment_method,
-# 			 'order_list': order_list,
-# 			 'shopping_cart': shopping_cart}
-# 		)
 class CustomerDetail(DetailView):
 	model = Customer
 
@@ -138,19 +118,6 @@ class ProductList(ListView):
 	model = Product
 
 
-# class ProductDetail(View):
-#
-# 	def get(self, request, pk):
-# 		product = get_object_or_404(
-# 			Product,
-# 			pk=pk
-# 		)
-# 		category = product.category_id
-# 		return render(
-# 			request,
-# 			'productinfo/product_detail.html',
-# 			{'product': product, 'category': category}
-# 		)
 class ProductDetail(DetailView):
 	model = Product
 
@@ -377,22 +344,35 @@ class CartItemList(ListView):
 	model = Cart_Item
 
 
-class CartItemDetail(View):
+# class CartItemDetail(View):
+#
+# 	def get(self, request, pk):
+# 		cartitem = get_object_or_404(
+# 			Cart_Item,
+# 			pk=pk
+# 		)
+# 		cart_id = cartitem.cart_id
+# 		product_id = cartitem.product_id
+#
+# 		sub_total = cartitem.quantity * cartitem.product_id.product_price
+# 		return render(
+# 			request,
+# 			'productinfo/cart_item_detail.html',
+# 			{'cartitem': cartitem, 'cart_id': cart_id, 'product_id': product_id, 'sub_total': sub_total}
+# 		)
+class CartItemDetail(DetailView):
+	model = Cart_Item
 
-	def get(self, request, pk):
-		cartitem = get_object_or_404(
-			Cart_Item,
-			pk=pk
-		)
-		cart_id = cartitem.cart_id
-		product_id = cartitem.product_id
-
-		sub_total = cartitem.quantity * cartitem.product_id.product_price
-		return render(
-			request,
-			'productinfo/cartitem_detail.html',
-			{'cartitem': cartitem, 'cart_id': cart_id, 'product_id': product_id, 'sub_total': sub_total}
-		)
+	def get_context_data(self, **kwargs):
+		context = super(DetailView, self).get_context_data(**kwargs)
+		cart_item = self.get_object()
+		cart_id = cart_item.cart_id
+		product_id = cart_item.product_id
+		sub_total = cart_item.quantity * cart_item.product_id.product_price
+		context['cart_id'] = cart_id
+		context['product_id'] = product_id
+		context['sub_total'] = sub_total
+		return context
 
 
 class CartItemCreate(ObjectCreateMixin, View):
