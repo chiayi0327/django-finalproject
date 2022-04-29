@@ -48,10 +48,12 @@ class CustomerUpdate(UpdateView):
 	template_name = 'productinfo/customer_form_update.html'
 
 
-class CustomerDelete(View):
+class CustomerDelete(DeleteView):
+	model = Customer
+	success_url = reverse_lazy('productinfo_customer_list_urlpattern')
 
 	def get(self, request, pk):
-		customer = self.get_object(pk)
+		customer = get_object_or_404(Customer, pk=pk)
 		orders = customer.orders.all()
 		shopping_cart = customer.shopping_carts.all()
 
@@ -70,16 +72,6 @@ class CustomerDelete(View):
 				'productinfo/customer_confirm_delete.html',
 				{'customer': customer}
 			)
-
-	def get_object(self, pk):
-		return get_object_or_404(
-			Customer,
-			pk=pk)
-
-	def post(self, request, pk):
-		customer = self.get_object(pk)
-		customer.delete()
-		return redirect('productinfo_customer_list_urlpattern')
 
 
 class ProductList(ListView):
@@ -108,10 +100,12 @@ class ProductUpdate(UpdateView):
 	template_name = 'productinfo/product_form_update.html'
 
 
-class ProductDelete(View):
+class ProductDelete(DeleteView):
+	model = Product
+	success_url = reverse_lazy('productinfo_product_list_urlpattern')
 
 	def get(self, request, pk):
-		product = self.get_object(pk)
+		product = get_object_or_404(Product, pk=pk)
 		cartitem = product.cart_items.all()
 		orderproduct = product.order_products.all()
 
@@ -129,20 +123,8 @@ class ProductDelete(View):
 			return render(
 				request,
 				'productinfo/product_confirm_delete.html',
-				{'product':product}
+				{'product': product}
 			)
-
-	def get_object(self, pk):
-		product = get_object_or_404(
-			Product,
-			pk=pk
-		)
-		return product
-
-	def post(self, request, pk):
-		product = self.get_object(pk)
-		product.delete()
-		return redirect('productinfo_product_list_urlpattern')
 
 
 class ShoppingCartList(View):
@@ -258,15 +240,17 @@ class ShoppingCartCreate(CreateView):
 	model = Shopping_Cart
 
 
-class ShoppingCartDelete(View):
+class ShoppingCartDelete(DeleteView):
+	model = Shopping_Cart
+	success_url = reverse_lazy('productinfo_shopping_cart_list_urlpattern')
 
 	def get(self, request, pk):
-		shopping_cart = self.get_object(pk)
+		shopping_cart = get_object_or_404(Shopping_Cart, pk=pk)
 		sc_list = shopping_cart.cart_items.all()
 		if sc_list.count() > 0:
 			return render(
 				request,
-				'productinfo/shoppingcart_refuse_delete.html',
+				'productinfo/shopping_cart_refuse_delete.html',
 				{'shopping_cart': shopping_cart,
 				 'sc_list': sc_list,
 				 }
@@ -277,18 +261,6 @@ class ShoppingCartDelete(View):
 				'productinfo/shoppingcart_confirm_delete.html',
 				{'shopping_cart': shopping_cart}
 			)
-
-	def get_object(self, pk):
-		shopping_cart = get_object_or_404(
-			Shopping_Cart,
-			pk=pk
-		)
-		return shopping_cart
-
-	def post(self, request, pk):
-		shopping_cart = self.get_object(pk)
-		shopping_cart.delete()
-		return redirect('productinfo_shoppingcart_list_urlpattern')
 
 
 # class CartItemList(View):
@@ -448,10 +420,12 @@ class OrderUpdate(UpdateView):
 	template_name = 'productinfo/order_form_update.html'
 
 
-class OrderDelete(View):
+class OrderDelete(DeleteView):
+	model = Order
+	success_url = reverse_lazy('productinfo_order_list_urlpattern')
 
 	def get(self, request, pk):
-		order = self.get_object(pk)
+		order = get_object_or_404(Order, pk=pk)
 		op_list = order.order_products.all()
 		if op_list.count() > 0:
 			return render(
@@ -468,17 +442,6 @@ class OrderDelete(View):
 				{'order': order}
 			)
 
-	def get_object(self, pk):
-		order = get_object_or_404(
-			Order,
-			pk=pk
-		)
-		return order
-
-	def post(self, request, pk):
-		order = self.get_object(pk)
-		order.delete()
-		return redirect('productinfo_order_list_urlpattern')
 
 
 # class OrderProductList(View):
