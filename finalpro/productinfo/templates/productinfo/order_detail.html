@@ -6,7 +6,7 @@
 
 {% block content %}
     <h2>{{ order }}</h2>
-    <ul>
+    <ul class="ezu-button-list">
         <li>
             <a href="{{ order.get_update_url }}" class="button button-primary">
                 Edit Order</a></li>
@@ -23,8 +23,8 @@
                 <td><a href="{{ customer_id.get_absolute_url}}">{{ customer_id }}</a></td>
             </tr>
             <tr>
-                <th>Total Price:</th>
-                <td>{{ order.total_price }}</td>
+                <th>Price:</th>
+                <td>{{ total }}</td>
             </tr>
             <tr>
                 <th>Order Date:</th>
@@ -50,7 +50,7 @@
     </section>
 
     <section>
-        <h3>Orders</h3>
+        <h3>Order Detail</h3>
         <ul>
             {% for product in product_list %}
                 <li>

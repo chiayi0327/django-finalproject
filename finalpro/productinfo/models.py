@@ -190,7 +190,8 @@ class Order(models.Model):
 	customer_id = models.ForeignKey(Customer, related_name='orders', on_delete=models.PROTECT)
 
 	def __str__(self):
-		return f'{self.order_id} - {self.order_date} - {self.total_price}'
+		return f'{self.order_id} - {self.order_date}'
+		# return f'{self.order_id} - {self.order_date} - {self.total_price}'
 
 	def get_absolute_url(self):
 		return reverse('productinfo_order_detail_urlpattern',

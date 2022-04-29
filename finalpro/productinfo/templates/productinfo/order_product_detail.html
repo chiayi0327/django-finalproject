@@ -1,12 +1,12 @@
 {% extends 'productinfo/base.html' %}
 
 {% block title %}
-    Order Product - {{ orderproduct }}
+    Order Product - {{ order_product }}
 {% endblock %}
 
 {% block content %}
-    <h2>{{ orderproduct }}</h2>
-    <ul>
+    <h2>{{ order_product }}</h2>
+    <ul class="ezu-button-list">
         <li>
             <a href="{{ orderproduct.get_update_url }}" class="button button-primary">
                 Edit OrderProduct</a></li>
@@ -25,11 +25,11 @@
             </tr>
             <tr>
                 <th>price:</th>
-                <td>{{ orderproduct.price }}</td>
+                <td>{{ sub_total }}</td>
             </tr>
             <tr>
                 <th>quantity:</th>
-                <td>{{ orderproduct.quantity }}</td>
+                <td>{{ order_product.quantity }}</td>
             </tr>
 
         </table>

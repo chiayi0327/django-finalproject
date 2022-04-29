@@ -445,26 +445,6 @@ class OrderList(ListView):
 	model = Order
 
 
-# class OrderDetail(View):
-#
-# 	def get(self, request, pk):
-# 		order = get_object_or_404(
-# 			Order,
-# 			pk=pk
-# 		)
-# 		customer_id = order.customer_id
-# 		shipping_method = order.sm_id
-# 		payment_method = order.pm_id
-# 		product_list = order.order_products.all()
-# 		return render(
-# 			request,
-# 			'productinfo/order_detail.html',
-# 			{'order': order,
-# 			 'customer_id': customer_id,
-# 			 'shipping_method': shipping_method,
-# 			 'payment_method': payment_method,
-# 			 'product_list': product_list}
-# 		)
 class OrderDetail(DetailView):
 	model = Order
 
@@ -475,10 +455,16 @@ class OrderDetail(DetailView):
 		shipping_method = order.sm_id
 		payment_method = order.pm_id
 		product_list = order.order_products.all()
+
+		total = 0
+		for product in product_list:
+			total = product.quantity * product.product_id.product_price + total
+
 		context['customer_id'] = customer_id
 		context['shipping_method'] = shipping_method
 		context['payment_method'] = payment_method
 		context['product_list'] = product_list
+		context['total'] = total
 		return context
 
 
@@ -570,22 +556,35 @@ class OrderProductList(ListView):
 	model = Order_Product
 
 
-class OrderProductDetail(View):
+# class OrderProductDetail(View):
+#
+# 	def get(self, request, pk):
+# 		orderproduct = get_object_or_404(
+# 			Order_Product,
+# 			pk=pk
+# 		)
+# 		order_id = orderproduct.order_id
+# 		product_id = orderproduct.product_id
+# 		return render(
+# 			request,
+# 			'productinfo/order_product_detail.html',
+# 			{'orderproduct': orderproduct,
+# 			 'order_id': order_id,
+# 			 'product_id': product_id}
+# 		)
+class OrderProductDetail(DetailView):
+	model = Order_Product
 
-	def get(self, request, pk):
-		orderproduct = get_object_or_404(
-			Order_Product,
-			pk=pk
-		)
-		order_id = orderproduct.order_id
-		product_id = orderproduct.product_id
-		return render(
-			request,
-			'productinfo/orderproduct_detail.html',
-			{'orderproduct': orderproduct,
-			 'order_id': order_id,
-			 'product_id': product_id}
-		)
+	def get_context_data(self, **kwargs):
+		context = super(DetailView, self).get_context_data(**kwargs)
+		order_product = self.get_object()
+		order_id = order_product.order_id
+		product_id = order_product.product_id
+		sub_total = order_product.quantity * order_product.product_id.product_price
+		context['order_id'] = order_id
+		context['product_id'] = product_id
+		context['sub_total'] = sub_total
+		return context
 
 
 class OrderProductCreate(ObjectCreateMixin, View):
