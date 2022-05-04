@@ -118,7 +118,7 @@ class Product(models.Model):
 
 class Shopping_Cart(models.Model):
 	cart_id = models.AutoField(primary_key=True)
-	total_price = models.FloatField()
+	# total_price = models.FloatField()
 	customer_id = models.ForeignKey(Customer, related_name='shopping_carts', on_delete=models.PROTECT)
 	sm_id = models.ForeignKey(Shipping_Method, related_name='shopping_carts', on_delete=models.PROTECT)
 	pm_id = models.ForeignKey(Payment_Method, related_name='shopping_carts', on_delete=models.PROTECT)
@@ -181,8 +181,8 @@ class Cart_Item(models.Model):
 
 class Order(models.Model):
 	order_id = models.AutoField(primary_key=True)
-	total_price = models.FloatField()
-	order_date = models.DateTimeField()
+	# total_price = models.FloatField()
+	order_date = models.CharField(max_length=225)
 	receiver = models.CharField(max_length=45)
 	address = models.CharField(max_length=225)
 	sm_id = models.ForeignKey(Shipping_Method, related_name='orders', on_delete=models.PROTECT)
