@@ -47,24 +47,36 @@
     </header>
     <nav>
         <ul>
+            {% if perms.productinfo.view_customer %}
             <li>
                 <a href="{% url 'productinfo_customer_list_urlpattern' %}">
                     Customer</a></li>
+            {% endif %}
+            {% if perms.productinfo.view_product %}
             <li>
                 <a href="{% url 'productinfo_product_list_urlpattern' %}">
                     Product</a></li>
+            {% endif %}
+            {% if perms.productinfo.view_shopping_cart %}
             <li>
                 <a href="{% url 'productinfo_shopping_cart_list_urlpattern' %}">
                     Shopping_Cart</a></li>
+            {% endif %}
+            {% if perms.productinfo.view_cart_item %}
             <li>
                 <a href="{% url 'productinfo_cart_item_list_urlpattern' %}">
                     Cart_Item</a></li>
+            {% endif %}
+            {% if perms.productinfo.view_order %}
             <li>
                 <a href="{% url 'productinfo_order_list_urlpattern' %}">
                     Order</a></li>
+            {% endif %}
+            {% if perms.productinfo.view_order_product %}
             <li>
                 <a href="{% url 'productinfo_order_product_list_urlpattern' %}">
                     Order_Product</a></li>
+            {% endif %}
             <li>
                 <a href="{% url 'about_urlpattern' %}">
                     About

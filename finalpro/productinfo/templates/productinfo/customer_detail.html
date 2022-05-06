@@ -6,12 +6,16 @@
 
 {% block content %}
     <h2>{{ customer }}</h2>
-    <ul class="ezu-button-list">
+    <ul class="inline">
+    {% if perms.productinfo.change_custoemr %}
         <li>
             <a href="{{ customer.get_update_url }}" class="button button-primary">
                 Edit Customer</a></li>
+        {% endif %}
+    {% if perms.productinfo.delete_customer %}
     <li><a href="{{ customer.get_delete_url }}" class="button button-primary">
                 Delete Customer</a></li>
+    {% endif %}
     </ul>
     <section>
         <table>

@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
@@ -16,12 +17,14 @@ from productinfo.models import (
 )
 
 
-class CustomerList(ListView):
+class CustomerList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
 	model = Customer
+	permission_required = 'productinfo.view_customer'
 
 
-class CustomerDetail(DetailView):
+class CustomerDetail(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
 	model = Customer
+	permission_required = 'productinfo.view_customer'
 
 	def get_context_data(self, **kwargs):
 		context = super(DetailView, self).get_context_data(**kwargs)
@@ -37,20 +40,23 @@ class CustomerDetail(DetailView):
 		return context
 
 
-class CustomerCreate(CreateView):
+class CustomerCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
 	form_class = CustomerForm
 	model = Customer
+	permission_required = 'productinfo.add_customer'
 
 
-class CustomerUpdate(UpdateView):
+class CustomerUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
 	form_class = CustomerForm
 	model = Customer
 	template_name = 'productinfo/customer_form_update.html'
+	permission_required = 'productinfo.change_customer'
 
 
-class CustomerDelete(DeleteView):
+class CustomerDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
 	model = Customer
 	success_url = reverse_lazy('productinfo_customer_list_urlpattern')
+	permission_required = 'productinfo.delete_customer'
 
 	def get(self, request, pk):
 		customer = get_object_or_404(Customer, pk=pk)
@@ -74,12 +80,14 @@ class CustomerDelete(DeleteView):
 			)
 
 
-class ProductList(ListView):
+class ProductList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
 	model = Product
+	permission_required = 'productinfo.view_product'
 
 
-class ProductDetail(DetailView):
+class ProductDetail(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
 	model = Product
+	permission_required = 'productinfo.view_product'
 
 	def get_context_data(self, **kwargs):
 		context = super(DetailView, self).get_context_data(**kwargs)
@@ -89,20 +97,23 @@ class ProductDetail(DetailView):
 		return context
 
 
-class ProductCreate(CreateView):
+class ProductCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
 	form_class = ProductForm
 	model = Product
+	permission_required = 'productinfo.add_product'
 
 
-class ProductUpdate(UpdateView):
+class ProductUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
 	form_class = ProductForm
 	model = Product
 	template_name = 'productinfo/product_form_update.html'
+	permission_required = 'productinfo.change_product'
 
 
-class ProductDelete(DeleteView):
+class ProductDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
 	model = Product
 	success_url = reverse_lazy('productinfo_product_list_urlpattern')
+	permission_required = 'productinfo.delete_product'
 
 	def get(self, request, pk):
 		product = get_object_or_404(Product, pk=pk)
@@ -127,48 +138,14 @@ class ProductDelete(DeleteView):
 			)
 
 
-class ShoppingCartList(View):
-
-	def get(self, request):
-		return render(
-			request,
-			'productinfo/shopping_cart_list.html',
-			{'shoppingcart_list': Shopping_Cart.objects.all()}
-		)
-
-
-class ShoppingCartList(ListView):
+class ShoppingCartList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
 	model = Shopping_Cart
+	permission_required = 'productinfo.view_shopping_cart'
 
 
-# class ShoppingCartDetail(View):
-#
-# 	def get(self, request, pk):
-# 		shopping_cart = get_object_or_404(
-# 			Shopping_Cart,
-# 			pk=pk
-# 		)
-# 		customer_id = shopping_cart.customer_id
-# 		shipping_method = shopping_cart.sm_id
-# 		payment_method = shopping_cart.pm_id
-# 		sc_list = shopping_cart.cart_items.all()
-#
-# 		total = 0
-# 		for product in sc_list:
-# 			total = product.quantity * product.product_id.product_price + total
-#
-# 		return render(
-# 			request,
-# 			'productinfo/shopping_cart_detail.html',
-# 			{'shopping_cart': shopping_cart,
-# 			 'customer_id': customer_id,
-# 			 'shipping_method': shipping_method,
-# 			 'payment_method': payment_method,
-# 			 'sc_list': sc_list,
-# 			 'total': total}
-# 		)
-class ShoppingCartDetail(DetailView):
+class ShoppingCartDetail(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
 	model = Shopping_Cart
+	permission_required = 'productinfo.view_shopping_cart'
 
 	def get_context_data(self, **kwargs):
 		context = super(DetailView, self).get_context_data(**kwargs)
@@ -190,59 +167,23 @@ class ShoppingCartDetail(DetailView):
 		return context
 
 
-# class ShoppingCartUpdate(View):
-# 	form_class = ShoppingCartForm
-# 	model = Shopping_Cart
-# 	template_name = 'productinfo/shopping_cart_form_update.html'
-#
-# 	def get_object(self, pk):
-# 		return get_object_or_404(
-# 			self.model,
-# 			pk=pk)
-#
-# 	def get(self, request, pk):
-# 		shopping_cart = self.get_object(pk)
-# 		context = {
-# 			'form': self.form_class(
-# 				instance=shopping_cart),
-# 			'product': shopping_cart,
-# 		}
-# 		return render(
-# 			request, self.template_name, context)
-#
-# 	def post(self, request, pk):
-# 		shopping_cart = self.get_object(pk)
-# 		bound_form = self.form_class(
-# 			request.POST, instance=shopping_cart)
-# 		if bound_form.is_valid():
-# 			new_shoppingcart = bound_form.save()
-# 			return redirect(new_shoppingcart)
-# 		else:
-# 			context = {
-# 				'form': bound_form,
-# 				'shopping_cart': shopping_cart,
-# 			}
-# 			return render(
-# 				request,
-# 				self.template_name,
-# 				context)
-class ShoppingCartUpdate(UpdateView):
+class ShoppingCartUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
 	form_class = ShoppingCartForm
 	model = Shopping_Cart
 	template_name = 'productinfo/shopping_cart_form_update.html'
+	permission_required = 'productinfo.change_shopping_cart'
 
 
-# class ShoppingCartCreate(ObjectCreateMixin, View):
-# 	form_class = ShoppingCartForm
-# 	template_name = 'productinfo/shopping_cart_form.html'
-class ShoppingCartCreate(CreateView):
+class ShoppingCartCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
 	form_class = ShoppingCartForm
 	model = Shopping_Cart
+	permission_required = 'productinfo.add_shopping_cart'
 
 
-class ShoppingCartDelete(DeleteView):
+class ShoppingCartDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
 	model = Shopping_Cart
 	success_url = reverse_lazy('productinfo_shopping_cart_list_urlpattern')
+	permission_required = 'productinfo.delete_shopping_cart'
 
 	def get(self, request, pk):
 		shopping_cart = get_object_or_404(Shopping_Cart, pk=pk)
@@ -263,36 +204,14 @@ class ShoppingCartDelete(DeleteView):
 			)
 
 
-# class CartItemList(View):
-#
-# 	def get(self, request):
-# 		return render(
-# 			request,
-# 			'productinfo/cart_item_list.html',
-# 			{'cartitem_list': Cart_Item.objects.all()}
-# 		)
-class CartItemList(ListView):
+class CartItemList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
 	model = Cart_Item
+	permission_required = 'productinfo.view_cart_item'
 
 
-# class CartItemDetail(View):
-#
-# 	def get(self, request, pk):
-# 		cartitem = get_object_or_404(
-# 			Cart_Item,
-# 			pk=pk
-# 		)
-# 		cart_id = cartitem.cart_id
-# 		product_id = cartitem.product_id
-#
-# 		sub_total = cartitem.quantity * cartitem.product_id.product_price
-# 		return render(
-# 			request,
-# 			'productinfo/cart_item_detail.html',
-# 			{'cartitem': cartitem, 'cart_id': cart_id, 'product_id': product_id, 'sub_total': sub_total}
-# 		)
-class CartItemDetail(DetailView):
+class CartItemDetail(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
 	model = Cart_Item
+	permission_required = 'productinfo.view_cart_item'
 
 	def get_context_data(self, **kwargs):
 		context = super(DetailView, self).get_context_data(**kwargs)
@@ -306,88 +225,33 @@ class CartItemDetail(DetailView):
 		return context
 
 
-# class CartItemCreate(ObjectCreateMixin, View):
-# 	form_class = CartItemForm
-# 	template_name = 'productinfo/cart_item_form.html'
-class CartItemCreate(CreateView):
+class CartItemCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
 	form_class = CartItemForm
 	model = Cart_Item
+	permission_required = 'productinfo.add_cart_item'
 
 
-# class CartItemUpdate(View):
-# 	form_class = CartItemForm
-# 	model = Cart_Item
-# 	template_name = 'productinfo/cart_item_form_update.html'
-#
-# 	def get_object(self, pk):
-# 		return get_object_or_404(
-# 			self.model,
-# 			pk=pk)
-#
-# 	def get(self, request, pk):
-# 		cart_item = self.get_object(pk)
-# 		context = {
-# 			'form': self.form_class(
-# 				instance=cart_item),
-# 			'cart_item': cart_item,
-# 		}
-# 		return render(
-# 			request, self.template_name, context)
-#
-# 	def post(self, request, pk):
-# 		cart_item = self.get_object(pk)
-# 		bound_form = self.form_class(
-# 			request.POST, instance=cart_item)
-# 		if bound_form.is_valid():
-# 			new_cartitem = bound_form.save()
-# 			return redirect(new_cartitem)
-# 		else:
-# 			context = {
-# 				'form': bound_form,
-# 				'cart_item': cart_item,
-# 			}
-# 			return render(
-# 				request,
-# 				self.template_name,
-# 				context)
-class CartItemUpdate(UpdateView):
+class CartItemUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
 	form_class = CartItemForm
 	model = Cart_Item
 	template_name = 'productinfo/cart_item_form_update.html'
+	permission_required = 'productinfo.change_cart_item'
 
 
-# class CartItemDelete(View):
-#
-# 	def get(self, request, pk):
-# 		cart_item = self.get_object(pk)
-# 		return render(
-# 			request,
-# 			'productinfo/cart_item_confirm_delete.html',
-# 			{'cart_item': cart_item}
-# 		)
-#
-# 	def get_object(self, pk):
-# 		cart_item = get_object_or_404(
-# 			Cart_Item,
-# 			pk=pk
-# 		)
-# 		return cart_item
-#
-# 	def post(self, request, pk):
-# 		cart_item = self.get_object(pk)
-# 		cart_item.delete()
-# 		return redirect('productinfo_cartitem_list_urlpattern')
-class CartItemDelete(DeleteView):
+class CartItemDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
 	model = Cart_Item
 	success_url = reverse_lazy('productinfo_cart_item_list_urlpattern')
+	permission_required = 'productinfo.delete_cart_item'
 
 
-class OrderList(ListView):
+class OrderList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
 	model = Order
+	permission_required = 'productinfo.view_order'
 
 
-class OrderDetail(DetailView):
+class OrderDetail(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
 	model = Order
+	permission_required = 'productinfo.view_order'
 
 	def get_context_data(self, **kwargs):
 		context = super(DetailView, self).get_context_data(**kwargs)
@@ -409,20 +273,23 @@ class OrderDetail(DetailView):
 		return context
 
 
-class OrderCreate(CreateView):
+class OrderCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
 	form_class = OrderForm
 	model = Order
+	permission_required = 'productinfo.add_order'
 
 
-class OrderUpdate(UpdateView):
+class OrderUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
 	form_class = OrderForm
 	model = Order
 	template_name = 'productinfo/order_form_update.html'
+	permission_required = 'productinfo.change_order'
 
 
-class OrderDelete(DeleteView):
+class OrderDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
 	model = Order
 	success_url = reverse_lazy('productinfo_order_list_urlpattern')
+	permission_required = 'productinfo.delete_order'
 
 	def get(self, request, pk):
 		order = get_object_or_404(Order, pk=pk)
@@ -443,37 +310,14 @@ class OrderDelete(DeleteView):
 			)
 
 
-
-# class OrderProductList(View):
-#
-# 	def get(self, request):
-# 		return render(
-# 			request,
-# 			'productinfo/order_product_list.html',
-# 			{'orderproduct_list': Order_Product.objects.all()}
-# 		)
-class OrderProductList(ListView):
+class OrderProductList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
 	model = Order_Product
+	permission_required = 'productinfo.view_order_product'
 
 
-# class OrderProductDetail(View):
-#
-# 	def get(self, request, pk):
-# 		orderproduct = get_object_or_404(
-# 			Order_Product,
-# 			pk=pk
-# 		)
-# 		order_id = orderproduct.order_id
-# 		product_id = orderproduct.product_id
-# 		return render(
-# 			request,
-# 			'productinfo/order_product_detail.html',
-# 			{'orderproduct': orderproduct,
-# 			 'order_id': order_id,
-# 			 'product_id': product_id}
-# 		)
-class OrderProductDetail(DetailView):
+class OrderProductDetail(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
 	model = Order_Product
+	permission_required = 'productinfo.view_order_product'
 
 	def get_context_data(self, **kwargs):
 		context = super(DetailView, self).get_context_data(**kwargs)
@@ -487,77 +331,20 @@ class OrderProductDetail(DetailView):
 		return context
 
 
-# class OrderProductCreate(ObjectCreateMixin, View):
-# 	form_class = OrderProductForm
-# 	template_name = 'productinfo/order_product_form.html'
-class OrderProductCreate(CreateView):
+class OrderProductCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
 	form_class = OrderProductForm
 	model = Order_Product
+	permission_required = 'productinfo.add_order_product'
 
 
-# class OrderProductUpdate(View):
-# 	form_class = OrderProductForm
-# 	model = Order_Product
-# 	template_name = 'productinfo/order_product_form_update.html'
-#
-# 	def get_object(self, pk):
-# 		return get_object_or_404(
-# 			self.model,
-# 			pk=pk)
-#
-# 	def get(self, request, pk):
-# 		orderproduct = self.get_object(pk)
-# 		context = {
-# 			'form': self.form_class(
-# 				instance=orderproduct),
-# 			'orderproduct': orderproduct,
-# 		}
-# 		return render(
-# 			request, self.template_name, context)
-#
-# 	def post(self, request, pk):
-# 		orderproduct = self.get_object(pk)
-# 		bound_form = self.form_class(
-# 			request.POST, instance=orderproduct)
-# 		if bound_form.is_valid():
-# 			new_orderproduct = bound_form.save()
-# 			return redirect(new_orderproduct)
-# 		else:
-# 			context = {
-# 				'form': bound_form,
-# 				'orderproduct': orderproduct,
-# 			}
-# 			return render(
-# 				request,
-# 				self.template_name,
-# 				context)
-class OrderProductUpdate(UpdateView):
+class OrderProductUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
 	form_class = OrderProductForm
 	model = Order_Product
 	template_name = 'productinfo/order_product_form_update.html'
+	permission_required = 'productinfo.change_order_product'
 
 
-# class OrderProductDelete(View):
-#
-# 	def get(self, request, pk):
-# 		orderproduct = self.get_object(pk)
-# 		return render(
-# 			request,
-# 			'productinfo/order_product_confirm_delete.html',
-# 			{'orderproduct': orderproduct}
-# 		)
-#
-# 	def get_object(self, pk):
-# 		orderproduct = get_object_or_404(
-# 			Order_Product,
-# 			pk=pk
-# 		)
-# 		return orderproduct
-#
-# 	def post(self, request, pk):
-# 		orderproduct = self.get_object(pk)
-# 		orderproduct.delete()
-# 		return redirect('productinfo_orderproduct_list_urlpattern')
-class OrderProductDelete(DeleteView):
+class OrderProductDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
 	model = Order_Product
 	success_url = reverse_lazy('productinfo_order_product_list_urlpattern')
+	permission_required = 'productinfo.delete_order_product'

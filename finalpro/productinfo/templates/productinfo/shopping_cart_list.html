@@ -7,9 +7,11 @@
 {% block content %}
     <h2>Shopping Cart List</h2>
     <div>
+    {% if perms.productinfo.add_shopping_cart %}
     <a href="{% url 'productinfo_shoppingcart_create_urlpattern' %}" class="button button-primary">
         Create New ShoppingCart
     </a>
+    {% endif %}
     </div>
     <ul>
         {% for shoppingcart in shopping_cart_list %}

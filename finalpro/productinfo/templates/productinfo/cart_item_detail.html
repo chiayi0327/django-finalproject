@@ -6,12 +6,16 @@
 
 {% block content %}
     <h2>{{ cart_item }}</h2>
-    <ul class="ezu-button-list">
+    <ul class="inline">
+        {% if perms.productinfo.change_cart_item %}
         <li>
             <a href="{{ cart_item.get_update_url }}" class="button button-primary">
                 Edit CartItem</a></li>
+        {% endif %}
+        {% if perms.productinfo.delete_cart_item %}
         <li><a href="{{ cart_item.get_delete_url }}" class="button button-primary">
                 Delete CartItem</a></li>
+        {% endif %}
     </ul>
     <section>
         <table>

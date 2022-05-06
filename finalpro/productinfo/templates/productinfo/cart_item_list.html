@@ -7,9 +7,11 @@
 {% block content %}
     <h2>CartItem List</h2>
     <div>
+    {% if perms.productinfo.add_cart_item %}
     <a href="{% url 'productinfo_cartitem_create_urlpattern' %}" class="button button-primary">
         Create New CartItem
     </a>
+    {% endif %}
     </div>
     <ul>
         {% for cartitem in cart_item_list %}

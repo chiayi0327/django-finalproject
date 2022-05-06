@@ -7,9 +7,11 @@
 {% block content %}
     <h2>Product List</h2>
     <div>
+    {% if perms.productinfo.add_product %}
     <a href="{% url 'productinfo_product_create_urlpattern' %}" class="button button-primary">
         Create New Product
     </a>
+    {% endif %}
     </div>
     <ul>
         {% for product in product_list %}
